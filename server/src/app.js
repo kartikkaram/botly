@@ -11,7 +11,7 @@ const app = express();
 export const fetchDomains=async () => {
   try {
     const domains = await Bot.find().select("websiteurl");
-    customerDomains = domains.map((doc) => doc.websiteurl);
+  const  customerDomains = domains.map((doc) => doc.websiteurl);
     console.log("Customer domains fetched:", customerDomains);
   } catch (error) {
     console.error("Error fetching customer domains:", error);
