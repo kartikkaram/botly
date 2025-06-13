@@ -4,13 +4,41 @@ import cookieParser from 'cookie-parser';
 import { Error_Handler } from './middlewares/Errors.middlewares.js';
 import { clerkMiddleware } from '@clerk/express';
 import { clerkRouter } from './routes/clerk.routes.js';
+import { Bot } from './models/bot.model.js';
 
 const app = express();
-app.use(
+
+export const fetchDomains=async () => {
+  try {
+    const domains = await Bot.find().select("websiteurl");
+    customerDomains = domains.map((doc) => doc.websiteurl);
+    console.log("Customer domains fetched:", customerDomains);
+  } catch (error) {
+    console.error("Error fetching customer domains:", error);
+    process.exit(1); // Exit the process if initialization fails
+  }
+}
+
+
+const botOptions = {
+  origin: (origin, callback) => {
+    if (!origin || customerDomains.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+};
+
+app.use("/frontend-api",
   cors({
     origin: "http://localhost:5173",
     credentials: true,              
   }),
+);
+app.use("/bot-api",
+  cors(botOptions),
 );
 app.use(clerkMiddleware())
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
@@ -21,26 +49,3 @@ app.use("/api/v1/clerk",clerkRouter)
 app.use(Error_Handler)
 export default app
 
-/* import 'dotenv/config'
-import express from 'express'
-import { clerkClient, requireAuth, getAuth } from '@clerk/express'
-
-const app = express()
-const PORT = 3000
-
-// Use requireAuth() to protect this route
-// If user isn't authenticated, requireAuth() will redirect back to the homepage
-app.get('/protected', requireAuth(), async (req, res) => {
-  // Use `getAuth()` to get the user's `userId`
-  const { userId } = getAuth(req)
-
-  // Use Clerk's JavaScript Backend SDK to get the user's User object
-  const user = await clerkClient.users.getUser(userId)
-
-  return res.json({ user })
-})
-
-// Start the server and listen on the specified port
-app.listen(PORT, () => {
-  console.log(`Example app listening at http://localhost:${PORT}`)
-})*/
