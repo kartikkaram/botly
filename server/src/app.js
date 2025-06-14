@@ -7,12 +7,13 @@ import { clerkRouter } from './routes/clerk.routes.js';
 import { Bot } from './models/bot.model.js';
 
 const app = express();
+let validDomains = new Set()
 
 export const fetchDomains=async () => {
   try {
     const domains = await Bot.find().select("websiteurl");
-  const  customerDomains = domains.map((doc) => doc.websiteurl);
-    console.log("Customer domains fetched:", customerDomains);
+   validDomains = new Set(domains.map((doc) => doc.websiteurl))
+    console.log("Customer domains fetched:", [...validDomains]);
   } catch (error) {
     console.error("Error fetching customer domains:", error);
     process.exit(1); // Exit the process if initialization fails
@@ -20,16 +21,41 @@ export const fetchDomains=async () => {
 }
 
 
-const botOptions = {
-  origin: (origin, callback) => {
-    if (!origin || customerDomains.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
+const botCorsOptions = {
+  origin: async (origin, callback) => {
+    try {
+      if (!origin) return callback(null, true);
+      
+      // Check cache first
+      if (validDomains.has(origin)) {
+        return callback(null, true);
+      }
+      
+      // If not in cache, check database directly
+      const bot = await Bot.findOne({ websiteurl: origin });
+      if (bot) {
+        // Add to cache for next time
+        validDomains.add(origin);
+        return callback(null, true);
+      }
+      
+      // Not found anywhere
+      callback(new Error("Not allowed by CORS"), false);
+      
+    } catch (error) {
+      callback(error, false);
     }
   },
   credentials: true,
 };
+
+// setInterval(async () => {
+//   try {
+//     fetchDomains()
+//   } catch (error) {
+//     console.error("Error refreshing customer domains:", error);
+//   }
+// }, 5 * 60 * 1000); // Every 5 minutes
 
 app.use("/frontend-api",
   cors({
@@ -38,7 +64,7 @@ app.use("/frontend-api",
   }),
 );
 app.use("/bot-api",
-  cors(botOptions),
+  cors(botCorsOptions),
 );
 app.use(clerkMiddleware())
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
