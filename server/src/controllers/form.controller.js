@@ -1,15 +1,16 @@
 import { Bot } from "../models/bot.model.js";
 import { User } from "../models/user.models.js";
-import { ApiError } from "../utils/apiError";
-import { AsyncHandler } from "../utils/asyncHandler";
+import { ApiError } from "../utils/apiError.js";
+import { AsyncHandler } from "../utils/asyncHandler.js";
 import { csvParser } from "../utils/csv-parser.js";
 import { generatePromptForBot } from "../utils/promptGenerator.js";
 import { getGeminiEmbedding } from "../utils/embeddings.js";
+import { ApiResponse } from "../utils/apiResponse.js";
 
 
 
 
-const formController=AsyncHandler(async (req, res)=> {
+export const formController=AsyncHandler(async (req, res)=> {
     
     const {
         botname,
