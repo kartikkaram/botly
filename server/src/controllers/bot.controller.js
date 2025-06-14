@@ -1,19 +1,21 @@
 import { Bot } from "../models/bot.model.js";
 import { getGeminiEmbedding } from "../utils/embeddings.js";
 import { cosineSimilarity } from "../utils/vector-db.js";
-import { sendToGemini } from "../utils/send-to-llm.js";
+import { sendToGemini, sendToLLM } from "../utils/send-to-llm.js";
+import { ApiError } from "../utils/apiError.js";
+import { ApiResponse } from "../utils/apiResponse.js";
 
 export const chatWithBot = async (req, res) => {
   const { apiKey } = req.headers;
   const { userMessage } = req.body;
 
   if (!apiKey || !userMessage) {
-    return res.status(400).json({ error: "Missing API Key or message." });
+    throw new ApiError(400, "Missing API Key or message." );
   }
 
   const bot = await Bot.findOne({ _id: apiKey });
   if (!bot) {
-    return res.status(404).json({ error: "Bot not found." });
+    throw new ApiError( 404,"Bot not found." );
   }
 
   const userEmbedding = await getGeminiEmbedding(userMessage);
@@ -32,7 +34,9 @@ export const chatWithBot = async (req, res) => {
 
   const prompt = `${bot.prompt}\n\nUse the following context to answer:\n${contextText}\n\nUser: ${userMessage}\nBot:`;
 
-  const reply = await sendToGemini(prompt, bot.model); // or switch to Grok/DeepSeek based on bot.model
+  const reply = await sendToLLM(prompt, bot.model); // or switch to Grok/DeepSeek based on bot.model
 
-  res.status(200).json({ reply });
+  return res
+  .status(201)
+  .json(new ApiResponse(201,"bot response",reply))
 };

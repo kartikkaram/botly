@@ -5,6 +5,8 @@ import { Error_Handler } from './middlewares/Errors.middlewares.js';
 import { clerkMiddleware } from '@clerk/express';
 import { clerkRouter } from './routes/clerk.routes.js';
 import { Bot } from './models/bot.model.js';
+import { formRouter } from './routes/form.routes.js';
+import { botRouter } from './routes/bot.routes.js';
 
 const app = express();
 let validDomains = new Set()
@@ -71,6 +73,8 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"));
 app.use(cookieParser())
 app.use("/api/v1/clerk",clerkRouter)
+app.use("/frontend-api",formRouter)
+app.use("/bot-api",botRouter)
 
 app.use(Error_Handler)
 export default app

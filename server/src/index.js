@@ -10,7 +10,6 @@ import { fetchDomains } from "./app.js"
 const PORT =process.env.PORT  || 8001
 
 
-
 const startServer = async () => {
   try {
     await connectDB();
@@ -18,9 +17,10 @@ const startServer = async () => {
 
     await fetchDomains();
     console.log("Customer domains fetched");
-
+  
     app.listen(PORT, () => {
       console.log(`Server is listening at port: ${PORT}`);
+
     });
   } catch (error) {
     console.error("Server initialization error:", error);
