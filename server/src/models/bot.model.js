@@ -50,11 +50,16 @@ let botSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
-    websitecontext: {
-      type: String,
+    websitecontext: [
+  {
+    input: { type: String, required: true, trim: true },
+    output: { type: String, required: true, trim: true },
+    embedding: {
+      type: [Number],
       required: true,
-      trim: true,
-    },
+    }
+  }
+] ,
     websiteurl: {
       type: String,
       required: true,
@@ -65,7 +70,7 @@ let botSchema = new mongoose.Schema(
       required:true,
       default: "",
     },
-},
+  },
   { timestamps: true }
 );
 
