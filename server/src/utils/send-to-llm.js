@@ -10,9 +10,9 @@ export const sendToLLM = async (prompt, model) => {
     case "gemini":
       return await sendToGemini(prompt);
     case "deepseek":
-      return await sendToDeepSeek(prompt);
+      return await sendToOpenRouter(prompt,model);
     case "grok":
-      return await sendToGrok(prompt);
+      return await sendToOpenRouter(prompt,model);
     default:
       throw new Error(`Unsupported model: ${model}`);
   }

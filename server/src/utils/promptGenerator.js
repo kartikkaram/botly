@@ -30,7 +30,6 @@ Capabilities: ${capabilities.join(", ")}
     case "Educational Bot":
       basePrompt += `Break down content in simple terms. Provide step-by-step explanations.`;
       break;
-    // Add other types as needed
     default:
       basePrompt += `Assist users to the best of your ability based on the website's context.`;
   }
