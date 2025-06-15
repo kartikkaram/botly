@@ -1,17 +1,25 @@
-import axios from "axios";
+
+import { GoogleGenAI } from "@google/genai";
+
 
 export const getGeminiEmbedding = async (text) => {
   const API_KEY = process.env.GEMINI_API_KEY;
 
-  const response = await axios.post(
-    'https://generativelanguage.googleapis.com/v1beta/models/embedding-001:embedText',
-    {
-      text,
-    },
-    {
-      params: { key: API_KEY },
-    }
-  );
+  
+    const ai = new GoogleGenAI({ apiKey: API_KEY });
 
-  return response.data.embedding.values; // returns array of floats
+    const response = await ai.models.embedContent({
+        model: 'gemini-embedding-exp-03-07',
+        contents: text,
+         config: {
+            taskType: "SEMANTIC_SIMILARITY",
+        }
+    });
+    
+  const embeddings = response.embeddings.map((embedding) => embedding.values);
+
+return embeddings
+  
+
 };
+

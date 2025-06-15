@@ -5,11 +5,16 @@ export const addToVectorStore = (embedding, context, botId) => {
 };
 
 export const cosineSimilarity = (vecA, vecB) => {
-  const dot = vecA.reduce((sum, val, i) => sum + val * vecB[i], 0);
-  const normA = Math.sqrt(vecA.reduce((sum, val) => sum + val ** 2, 0));
-  const normB = Math.sqrt(vecB.reduce((sum, val) => sum + val ** 2, 0));
+  const flatVecA = vecA.flat();
+  const flatVecB = vecB.flat();
+
+  const dot = flatVecA.reduce((sum, val, i) => sum + val * flatVecB[i], 0);
+  const normA = Math.sqrt(flatVecA.reduce((sum, val) => sum + val ** 2, 0));
+  const normB = Math.sqrt(flatVecB.reduce((sum, val) => sum + val ** 2, 0));
+
   return dot / (normA * normB);
 };
+
 
 export const getTopKMatches = (queryEmbedding, botId, k = 3) => {
   const filtered = vectorStore.filter((item) => item.botId === botId);

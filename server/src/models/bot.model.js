@@ -55,8 +55,8 @@ let botSchema = new mongoose.Schema(
     input: { type: String, required: true, trim: true },
     output: { type: String, required: true, trim: true },
     embedding: {
-      type: [Number],
-      required: true,
+      type: [[Number]],
+     required: true,
     }
   }
 ] ,

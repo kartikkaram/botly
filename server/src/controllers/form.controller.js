@@ -27,12 +27,9 @@ export const formController=AsyncHandler(async (req, res)=> {
     } = req.body;
 
     const uploadedFilePath=req?.files?.file?.[0].path
-    const clerkId = req.auth?.userId;
-
-
+    const { userId:clerkId } = getAuth(req)
   // Validation: Ensure all required fields are present
   if (
-    !uploadedFilePath ||
     !botname ||
     !bottype ||
     !model ||
@@ -41,8 +38,7 @@ export const formController=AsyncHandler(async (req, res)=> {
     !responsestyle ||
     !capabilities ||
     !websitecontext ||
-    !websiteurl ||
-    !prompt
+    !websiteurl 
   ) {
     throw new ApiError(400, "All required fields must be provided.");
   }
@@ -60,7 +56,11 @@ export const formController=AsyncHandler(async (req, res)=> {
     responsestyle,
     targetaudience,
     restrictedtopics,
+    capabilities
   });
+  if(!structuredPrompt){
+    throw new ApiError(401,"error while creating prompt")
+  }
 
   // Process websitecontext (JSON or JS object)
   let parsedContext;
@@ -105,11 +105,11 @@ export const formController=AsyncHandler(async (req, res)=> {
     throw new ApiError(401,"error while creating bot document")
   }
   
-  try {
-      const parsedCsvData=await csvParser(uploadedFilePath)
-    } catch (error) {
-        throw new ApiError(401, "error while parsing csv")
-    }
+  // try {
+  //     const parsedCsvData=await csvParser(uploadedFilePath)
+  //   } catch (error) {
+  //       throw new ApiError(401, "error while parsing csv")
+  //   }
     res
       .status(201)
       .json(new ApiResponse(201, "Bot created successfully", newBot));

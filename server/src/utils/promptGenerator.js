@@ -8,7 +8,7 @@ export function generatePromptForBot({
 }) {
   let basePrompt = `You are a ${bottype}, embedded on a website. Your job is to help users in a ${responsestyle.toLowerCase()} tone.
   
-Website Context: ${websitecontext}
+
 Target Audience: ${targetaudience}
 Capabilities: ${capabilities.join(", ")}
 `;
@@ -36,3 +36,4 @@ Capabilities: ${capabilities.join(", ")}
 
   return basePrompt.trim();
 }
+// Website Context: ${websitecontext}
