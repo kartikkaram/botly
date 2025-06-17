@@ -35,14 +35,24 @@ export const chatWithBot = async (req, res) => {
   if(!topK){
         throw new ApiError( 404,"topK were not created." );
   }
+
+  debugger
+
+  console.log("topK context: ", topK);
+
   const contextText = topK.map(c => `Q: ${c.input}\nA: ${c.output}`).join("\n");
              if(!contextText){
         throw new ApiError( 404,"context text was not created." );
   }
-  const prompt = `${bot.prompt}\n\nUse the following context to answer:\n${contextText}\n\nUser: ${userMessage}\nBot:`;
+  const prompt = `${bot.prompt}\n\nUse the following context to answer:\n${contextText}\n\nUser: ${userMessage}\n
+
+  avoid replying to messages that are out of bot's capabilities or not matching to its target audience
+  
+  Bot:`;
   if(!prompt){
         throw new ApiError( 404,"topK were not created." );
   }
+  console.log(prompt)
   const reply = await sendToLLM(prompt,  bot.model); // or switch to Grok/DeepSeek based on bot.model
 if(!reply){
   throw new ApiError(401,"no response from the bot")
