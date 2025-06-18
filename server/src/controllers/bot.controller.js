@@ -7,6 +7,7 @@ import { getEmbedding, initializeEmbedder } from "../utils/embeddings.js";
 import { updateDashboard } from "../utils/dashboard.js";
 import { AsyncHandler } from "../utils/asyncHandler.js";
 import { Dashboard } from "../models/dashboard.model.js";
+import { apiKeyGenerator } from "../utils/apikeyGenerator.js";
 
 export const chatWithBot = AsyncHandler(async (req, res) => {
   const { apikey } = req.headers;
