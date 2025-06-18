@@ -7,10 +7,10 @@ import { getEmbedding, initializeEmbedder } from "../utils/embeddings.js";
 import { updateDashboard } from "../utils/dashboard.js";
 import { AsyncHandler } from "../utils/asyncHandler.js";
 
-export const chatWithBot = async (req, res) => {
+export const chatWithBot = AsyncHandler(async (req, res) => {
   const { apikey } = req.headers;
   const { userMessage } = req.body;
-  const ipaddress= req.socket.remoteAddress
+  const ipaddress=  req.socket.remoteAddress || req.headers['x-forwarded-for']?.split(',')[0]?.trim();
   if (!apikey || !userMessage) {
     throw new ApiError(400, "Missing API Key or message." );
   }
@@ -35,9 +35,10 @@ await initializeEmbedder();
 
   // Sort by similarity and pick top 3
   const topK = scoredContexts.sort((a, b) => b.score - a.score).slice(0, 3);
-  if(!topK){
-        throw new ApiError( 404,"topK were not created." );
+  if(topK.length==0){
+        throw new ApiError( 404,"no relevant context was found" );
   }
+
   const contextText = topK.map(c => `Q: ${c.input}\nA: ${c.output}`).join("\n");
              if(!contextText){
         throw new ApiError( 404,"context text was not created." );
@@ -47,8 +48,6 @@ await initializeEmbedder();
 {
   "instructions": "You are an AI assistant designed to provide responses **strictly within the defined scope and context** provided. If a query falls outside the context, do not attempt to generate an answer. Instead, respond politely with: 'I'm sorry, I cannot assist with that. Please consult other resources or contact support for more information.' Ensure that all responses stay relevant and do not speculate or provide information beyond the defined parameters."
 }
-
-
   Bot:`;
   if(!prompt){
         throw new ApiError( 404,"topK were not created." );
@@ -61,7 +60,7 @@ await updateDashboard({ipaddress,apikey:bot.apikey,userMessage,reply})
   return res
   .status(201)
   .json(new ApiResponse(201,"bot response",reply))
-};
+})
 
 
 

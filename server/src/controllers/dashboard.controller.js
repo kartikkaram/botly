@@ -27,7 +27,7 @@ export const addRatings=AsyncHandler(async (req, res) => {
        if(!rating || rating<0 || rating>5 ||   typeof rating !== "number"){
         throw new ApiError(400,"enter valid rating")
        }
-    const ipaddress= req.socket.remoteAddress
+      const ipaddress=  req.socket.remoteAddress || req.headers['x-forwarded-for'];
  const dashboardDoc=await Dashboard.findOne({apikey, ipaddress}) 
 
  if(!dashboardDoc){
