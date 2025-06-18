@@ -7,6 +7,7 @@ const dashboardSchema = new mongoose.Schema({
     },
     apikey: {
       type: String,
+      ref:"Bot",
       required: true,
     },
   chathistory: [

@@ -6,6 +6,7 @@ import { ApiResponse } from "../utils/apiResponse.js";
 import { getEmbedding, initializeEmbedder } from "../utils/embeddings.js";
 import { updateDashboard } from "../utils/dashboard.js";
 import { AsyncHandler } from "../utils/asyncHandler.js";
+import { Dashboard } from "../models/dashboard.model.js";
 
 export const chatWithBot = AsyncHandler(async (req, res) => {
   const { apikey } = req.headers;
@@ -65,7 +66,26 @@ await updateDashboard({ipaddress,apikey:bot.apikey,userMessage,reply})
 
 
 export const renewBotApiKey=AsyncHandler(async (req,res) => {
+  const {oldApiKey}=req.body
+  if(!oldApiKey){
+    throw new ApiError(400,"please provide old apikey")
+  }
+  const existingBot=await Bot.findOne({apikey:oldApiKey})
+  if(!existingBot){
+      throw new ApiError(404,"bot not found")
+  }
   const apiKey=apiKeyGenerator()
+  existingBot.apikey=apiKey
+  await existingBot.save()
 
+try {
+await Dashboard.updateMany({ apikey: oldApiKey }, { apikey: apiKey });
+} catch (error) {
+  throw new ApiError(401, "error while updating dashboardDocs")
+}
+
+return res
+.status(200)
+.json(new ApiResponse(200,"apikey renewed", apiKey))
 
 })
