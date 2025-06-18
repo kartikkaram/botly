@@ -2,7 +2,7 @@ import {pipeline} from '@xenova/transformers';
 
 let embedder;
 
-export const getGeminiEmbedding = async (text) => {
+export const getEmbeddings = async (text) => {
   // Load the model only once
   if (!embedder) {
     embedder = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');

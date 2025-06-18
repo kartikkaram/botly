@@ -1,5 +1,5 @@
 import { Bot } from "../models/bot.model.js";
-import { getGeminiEmbedding } from "../utils/embeddings.js";
+import { getEmbedding } from "../utils/embeddings.js";
 import { cosineSimilarity } from "../utils/vector-db.js";
 import { sendToLLM } from "../utils/send-to-llm.js";
 import { ApiError } from "../utils/apiError.js";
@@ -17,7 +17,7 @@ export const chatWithBot = async (req, res) => {
     throw new ApiError( 404,"Bot not found." );
   }
 
-  const userEmbedding = await getGeminiEmbedding(userMessage);
+  const userEmbedding = await getEmbedding(userMessage);
   if(!userEmbedding){
       throw new ApiError( 404,"embeddings were not generated." );
   }
