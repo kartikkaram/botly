@@ -6,6 +6,9 @@ import { clerkMiddleware } from '@clerk/express';
 import { clerkRouter } from './routes/clerk.routes.js';
 import { Bot } from './models/bot.model.js';
 import { formRouter } from './routes/form.routes.js';
+import { botResponseRouter } from './routes/botResponse.routes.js';
+import { testRouter } from './routes/test.routes.js';
+import { dashboardRouter } from './routes/dashboard.routes.js';
 import { botRouter } from './routes/bot.routes.js';
 
 const app = express();
@@ -74,7 +77,10 @@ app.use(express.static("public"));
 app.use(cookieParser())
 app.use("/api/v1/clerk",clerkRouter)
 app.use("/frontend-api",formRouter)
-app.use("/bot-api",botRouter)
+app.use("/frontend-api",testRouter)
+app.use("/frontend-api",dashboardRouter)
+app.use("/frontend-api",botRouter)
+app.use("/bot-api",botResponseRouter)
 
 app.use(Error_Handler)
 export default app

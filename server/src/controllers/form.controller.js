@@ -4,8 +4,10 @@ import { ApiError } from "../utils/apiError.js";
 import { AsyncHandler } from "../utils/asyncHandler.js";
 import { csvParser } from "../utils/csv-parser.js";
 import { generatePromptForBot } from "../utils/promptGenerator.js";
-import { getGeminiEmbedding } from "../utils/embeddings.js";
+import { getGeminiEmbedding } from "../utils/geminiembeddings.js";
 import { ApiResponse } from "../utils/apiResponse.js";
+import { getEmbedding, initializeEmbedder } from "../utils/embeddings.js";
+import { apiKeyGenerator } from "../utils/apikeyGenerator.js";
 
 
 
@@ -27,7 +29,8 @@ export const formController=AsyncHandler(async (req, res)=> {
     } = req.body;
 
     const uploadedFilePath=req?.files?.file?.[0].path
-    const { userId:clerkId } = getAuth(req)
+   const { userId:clerkId } = getAuth(req)
+  // const clerkId="user_2yRzzw626Vx3mbopwcEljvnG8ma"
   // Validation: Ensure all required fields are present
   if (
     !botname ||
@@ -73,9 +76,10 @@ export const formController=AsyncHandler(async (req, res)=> {
   }
 
   // Generate embeddings for each context item and enrich it
+  await initializeEmbedder();
   const enrichedContext = await Promise.all(
     parsedContext.map(async (entry) => {
-      const embedding = await getGeminiEmbedding(entry.input);
+      const embedding = await getEmbedding(entry.input);
       return {
         input: entry.input,
         output: entry.output,
@@ -83,10 +87,15 @@ export const formController=AsyncHandler(async (req, res)=> {
       };
     })
   );
+  if(!enrichedContext){
+    throw new ApiError(400, "error while creating embeddings")
+  }
+  const apiKey=apiKeyGenerator()
 
   // Save to DB
   const newBot = await Bot.create({
     ownerid: user._id,
+    apikey:apiKey,
     botname,
     bottype,
     model,

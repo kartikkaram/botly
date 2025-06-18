@@ -1,8 +1,4 @@
-const vectorStore = []; // [{ embedding: [...], context: {input, output}, botId }]
 
-export const addToVectorStore = (embedding, context, botId) => {
-  vectorStore.push({ embedding, context, botId });
-};
 
 export const cosineSimilarity = (vecA, vecB) => {
   const flatVecA = vecA.flat();
@@ -15,12 +11,3 @@ export const cosineSimilarity = (vecA, vecB) => {
   return dot / (normA * normB);
 };
 
-
-export const getTopKMatches = (queryEmbedding, botId, k = 3) => {
-  const filtered = vectorStore.filter((item) => item.botId === botId);
-  const scored = filtered.map((item) => ({
-    ...item,
-    score: cosineSimilarity(queryEmbedding, item.embedding),
-  }));
-  return scored.sort((a, b) => b.score - a.score).slice(0, k);
-};

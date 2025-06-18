@@ -7,6 +7,12 @@ let botSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+   apikey: {
+       type: String,
+      required: true,
+      trim: true,
+      unique:true
+    },
     botname: {
       type: String,
       required: true,

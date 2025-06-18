@@ -1,25 +1,24 @@
+import { pipeline } from "@xenova/transformers";
 
-import { GoogleGenAI } from "@google/genai";
+let embedder;
 
-
-export const getGeminiEmbedding = async (text) => {
-  const API_KEY = process.env.GEMINI_API_KEY;
-
-  
-    const ai = new GoogleGenAI({ apiKey: API_KEY });
-
-    const response = await ai.models.embedContent({
-        model: 'gemini-embedding-exp-03-07',
-        contents: text,
-         config: {
-            taskType: "SEMANTIC_SIMILARITY",
-        }
-    });
-    
-  const embeddings = response.embeddings.map((embedding) => embedding.values);
-
-return embeddings
-  
-
+export const initializeEmbedder = async () => {
+    if (!embedder) {
+        console.log("Loading the embedding model...");
+        embedder = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');
+        console.log("Model loaded successfully.");
+    }
 };
 
+export const getEmbedding = async (text) => {
+    try {
+        if (!embedder) {
+            await initializeEmbedder();
+        }
+        const output = await embedder(text, { pooling: 'mean', normalize: true });
+        return Array.from(output.data);
+    } catch (error) {
+        console.error("Error generating embedding:", error);
+        throw error;
+    }
+};
