@@ -66,7 +66,7 @@ await updateDashboard({ipaddress,apikey:bot.apikey,userMessage,reply})
 
 
 export const renewBotApiKey=AsyncHandler(async (req,res) => {
-  const {oldApiKey}=req.body
+  const {oldApiKey}=req.headers
   if(!oldApiKey){
     throw new ApiError(400,"please provide old apikey")
   }
