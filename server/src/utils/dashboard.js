@@ -3,29 +3,24 @@ import { ApiError } from "./apiError.js"
 
 
 
-export const updateDashboard=async ({ipaddress,apikey,userMessage,reply}) => {
-    
+export const updateDashboard = async ({ ipaddress, apikey, userMessage, reply }) => {
     try {
-     const existingDoc=   await Dashboard.findOne({ipaddress, apikey})
-     if(existingDoc){
-        existingDoc.requesttimestamps.push(Date.now())
-            existingDoc.chathistory.push({ sender: "user", content: userMessage },
-          { sender: "bot", content: reply })
-            existingDoc.chathistory = existingDoc.chathistory;
-       await existingDoc.save()
-     }else{
-
-         await Dashboard.create({
-            ipaddress, 
-            apikey,
-            chathistory:[{sender:"user", content:userMessage},{sender:"bot", content: reply}],
-            requesttimestamps:[Date.now()] 
-         })
-     }
-
+        // Perform an atomic update or create a new document if none exists
+        await Dashboard.findOneAndUpdate(
+            { ipaddress, apikey },
+            {
+                $push: {
+                    requesttimestamps: Date.now(),
+                    chathistory: [
+                        { sender: "user", content: userMessage },
+                        { sender: "bot", content: reply }
+                    ]
+                }
+            },
+            { upsert: true, new: true } // Create a new document if not found and return updated doc
+        );
     } catch (error) {
-        console.log("something went wrong while updating/creating dashboard doc",error.message)
-        throw new ApiError(400,"something went wrong while updating/creating dashboard doc", )
+        console.error("Error while updating/creating dashboard document:", error.message);
+        throw new ApiError(500, "Failed to update or create dashboard document");
     }
-
-}
+};

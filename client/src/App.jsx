@@ -18,8 +18,8 @@ function App() {
       </SignedIn>
       <BotlyBot 
       apikey={import.meta.env.VITE_BOT_API_KEY}
-      initialMessage='Hello! Im CODExJATIN, your AI assistant. How can I help you today?'
-      title="CODExJATIN Assistant"
+      initialMessage='Hello! Im ecommerce, your AI assistant. How can I help you today?'
+      title="Ecommerce Assistant"
       />
     </header>
     </>

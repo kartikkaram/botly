@@ -12,6 +12,7 @@
   "dependencies": {
     "@clerk/clerk-react": "^5.31.9",
     "@clerk/react-router": "^1.5.0",
+    "botly-bot": "^1.0.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },

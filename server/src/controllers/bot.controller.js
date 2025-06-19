@@ -12,7 +12,7 @@ import { apiKeyGenerator } from "../utils/apikeyGenerator.js";
 export const chatWithBot = AsyncHandler(async (req, res) => {
   const { apikey } = req.headers;
   const { userMessage } = req.body;
-  const ipaddress=  req.socket.remoteAddress || req.headers['x-forwarded-for']?.split(',')[0]?.trim();
+  const ipaddress= req.ip || req.socket.remoteAddress 
   if (!apikey || !userMessage) {
     throw new ApiError(400, "Missing API Key or message." );
   }

@@ -29,6 +29,12 @@ const dashboardSchema = new mongoose.Schema({
     type: [Date], 
     default: [],
   },
+  responsetime:[
+    {
+      model:{type:String},
+      time:{type:Number}
+    }
+  ]
 },
 {
     timestamps:true
