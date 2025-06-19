@@ -41,15 +41,14 @@ await initializeEmbedder();
         throw new ApiError( 404,"no relevant context was found" );
   }
 
+
   const contextText = topK.map(c => `Q: ${c.input}\nA: ${c.output}`).join("\n");
              if(!contextText){
         throw new ApiError( 404,"context text was not created." );
   }
   console.log(contextText)
   const prompt = `${bot.prompt}\n\nUse the following context to answer:\n${contextText}\n\nUser: ${userMessage}\n
-{
   avoid replying to messages that are out of bot's capabilities or not matching to its target audience
-}
   Bot:`;
   if(!prompt){
         throw new ApiError( 404,"topK were not created." );
@@ -67,11 +66,16 @@ await updateDashboard({ipaddress,apikey:bot.apikey,userMessage,reply})
 
 
 export const renewBotApiKey=AsyncHandler(async (req,res) => {
-  const {oldApiKey}=req.headers
+  const {oldApiKey}=req.body;
   if(!oldApiKey){
     throw new ApiError(400,"please provide old apikey")
   }
-  const existingBot=await Bot.findOne({apikey:oldApiKey})
+
+  const existingBot = await Bot.findOne({
+    apikey: oldApiKey
+});
+
+
   if(!existingBot){
       throw new ApiError(404,"bot not found")
   }

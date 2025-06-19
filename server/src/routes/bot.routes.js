@@ -6,6 +6,6 @@ import { renewBotApiKey } from '../controllers/bot.controller.js'
 const botRouter=express.Router()
 
 
-botRouter.post('/renewBotApiKey',express.json({ limit: '16kb' }) ,renewBotApiKey)
+botRouter.post('/revoke',express.json({ limit: '16kb' }) ,renewBotApiKey)
 
 export {botRouter}

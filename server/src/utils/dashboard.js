@@ -11,7 +11,7 @@ export const updateDashboard=async ({ipaddress,apikey,userMessage,reply}) => {
         existingDoc.requesttimestamps.push(Date.now())
             existingDoc.chathistory.push({ sender: "user", content: userMessage },
           { sender: "bot", content: reply })
-            existingDoc.chathistory = existingDoc.chathistory.slice(-10);
+            existingDoc.chathistory = existingDoc.chathistory;
        await existingDoc.save()
      }else{
 
