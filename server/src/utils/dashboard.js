@@ -17,7 +17,7 @@ export const updateDashboard=async ({ipaddress,apikey,userMessage,reply}) => {
 
          await Dashboard.create({
             ipaddress, 
-            botkey,
+            apikey,
             chathistory:[{sender:"user", content:userMessage},{sender:"bot", content: reply}],
             requesttimestamps:[Date.now()] 
          })

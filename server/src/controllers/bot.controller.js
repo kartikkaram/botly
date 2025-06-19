@@ -48,7 +48,7 @@ await initializeEmbedder();
   console.log(contextText)
   const prompt = `${bot.prompt}\n\nUse the following context to answer:\n${contextText}\n\nUser: ${userMessage}\n
 {
-  "instructions": "You are an AI assistant designed to provide responses **strictly within the defined scope and context** provided. If a query falls outside the context, do not attempt to generate an answer. Instead, respond politely with: 'I'm sorry, I cannot assist with that. Please consult other resources or contact support for more information.' Ensure that all responses stay relevant and do not speculate or provide information beyond the defined parameters."
+  avoid replying to messages that are out of bot's capabilities or not matching to its target audience
 }
   Bot:`;
   if(!prompt){

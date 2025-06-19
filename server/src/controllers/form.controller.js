@@ -29,8 +29,8 @@ export const formController=AsyncHandler(async (req, res)=> {
 
     const uploadedFilePath=req?.files?.file?.[0].path
 
-   const { userId:clerkId } = getAuth(req)
-  // const clerkId="user_2yRzzw626Vx3mbopwcEljvnG8ma"
+ //  const { userId:clerkId } = getAuth(req)
+  const clerkId="user_2yRzzw626Vx3mbopwcEljvnG8ma"
   // Validation: Ensure all required fields are present
   if (
     !botname ||
