@@ -1,0 +1,22 @@
+# dev folders
+src/
+node_modules/
+public/
+.storybook/
+examples/
+
+# config files
+.vitepress/
+vite.config.js
+tailwind.config.js
+postcss.config.js
+tsconfig.json
+babel.config.js
+.eslintrc.js
+.env*
+
+# misc
+*.log
+*.ts
+*.tsx
+*.test.*

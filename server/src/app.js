@@ -18,7 +18,7 @@ export const fetchDomains=async () => {
   try {
     const domains = await Bot.find().select("websiteurl");
    validDomains = new Set(domains.map((doc) => doc.websiteurl))
-    console.log("Customer domains fetched:", [...validDomains]);
+    console.log("Customer domains fetched:", [...validDomains,"http://localhost:5173"]);
   } catch (error) {
     console.error("Error fetching customer domains:", error);
     process.exit(1); // Exit the process if initialization fails
