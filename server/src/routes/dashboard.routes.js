@@ -1,10 +1,11 @@
 import express from 'express'
-import { addRatings, getDashboard } from '../controllers/dashboard.controller.js'
+import { addRatings, getDashboard, refinedDashboard } from '../controllers/dashboard.controller.js'
 
 const dashboardRouter=express.Router()
 
 
-dashboardRouter.get('/getDashboard',express.json({ limit: '16kb' }) ,getDashboard)
+dashboardRouter.post('/getDashboard',express.json({ limit: '16kb' }) ,getDashboard)
 dashboardRouter.post('/addRatings',express.json({ limit: '16kb' }) ,addRatings)
+dashboardRouter.post('/getRefinedDashboard',express.json({ limit: '16kb' }) ,refinedDashboard)
 
 export {dashboardRouter}

@@ -2,14 +2,17 @@ import { useState } from 'react'
 import './App.css'
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react'
 import BotlyBot from 'botly-bot';
+
 import 'botly-bot/dist/botly-bot.css';
+
+import Index from './pages/LandingPage';
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-        <header>
+        {/* <header>
       <SignedOut>
         <SignInButton />
       </SignedOut>
@@ -17,11 +20,12 @@ function App() {
         <UserButton />
       </SignedIn>
       <BotlyBot 
-      apikey={import.meta.env.VITE_BOT_API_KEY}
-      initialMessage='Hello! Im ecommerce, your AI assistant. How can I help you today?'
-      title="Ecommerce Assistant"
+        apikey={import.meta.env.VITE_BOT_API_KEY}
+        initialMessage='Hello! Im CODExJATIN, your AI assistant. How can I help you today?'
+        title="CODExJATIN Assistant"
       />
-    </header>
+    </header> */}
+    <Index/>
     </>
   )
 }

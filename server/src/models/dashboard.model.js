@@ -21,7 +21,7 @@ const dashboardSchema = new mongoose.Schema({
     type: [String], 
     default: [], 
   },
-  rating: {
+  ratings: {
     type: [Number], 
     default: [], 
   },
