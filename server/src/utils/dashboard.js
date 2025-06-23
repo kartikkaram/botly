@@ -3,7 +3,7 @@ import { ApiError } from "./apiError.js"
 
 
 
-export const updateDashboard = async ({ ipaddress, apikey, userMessage, reply }) => {
+export const updateDashboard = async ({ ipaddress, apikey, userMessage, reply, userEmbedding }) => {
     try {
         // Perform an atomic update or create a new document if none exists
         await Dashboard.findOneAndUpdate(
@@ -12,7 +12,7 @@ export const updateDashboard = async ({ ipaddress, apikey, userMessage, reply })
                 $push: {
                     requesttimestamps: Date.now(),
                     chathistory: [
-                        { sender: "user", content: userMessage },
+                        { sender: "user", content: userMessage, embedding:userEmbedding },
                         { sender: "bot", content: reply }
                     ]
                 }

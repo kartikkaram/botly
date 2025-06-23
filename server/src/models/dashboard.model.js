@@ -14,6 +14,9 @@ const dashboardSchema = new mongoose.Schema({
     {
       sender: { type: String, enum: ['user', 'bot'], required: true },
       content: { type: String, required: true },
+       embedding: {
+      type: [[Number]],
+    },
       timestamp: { type: Date, default: Date.now },
     },
   ],

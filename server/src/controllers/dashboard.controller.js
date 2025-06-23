@@ -3,6 +3,7 @@ import { Dashboard } from "../models/dashboard.model.js";
 import { ApiError } from "../utils/apiError.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 import { AsyncHandler } from "../utils/asyncHandler.js";
+import { calculateDistanceMatrix, dbscan } from "../utils/vector-db.js";
 
 
 
@@ -128,3 +129,48 @@ const pipeline = [
    .json(new ApiResponse(201, "refined data ", data))
 
 }
+
+
+
+export const mostFrequentlyAskedQuestions=AsyncHandler(async (req , res) => {
+  
+     const {apikey}=req.headers
+     console.log(apikey)
+
+    const chats = await Dashboard.aggregate([
+  { $match: { apikey } }, // Match documents with the specific apikey
+  { $unwind: "$chathistory" }, // Deconstruct chathistory arrays into individual objects
+  { $match: { "chathistory.sender": "user" } }, // Filter only entries where sender is "user"
+  {
+    $group: {
+      _id: null, // Combine all results into a single group
+      combined: { $push: "$chathistory" }, // Collect filtered entries into a single array
+    },
+  },
+  { $project: { _id: 0, combined: 1 } }, // Exclude _id from the final result
+]);
+
+
+const data =chats[0].combined
+     const distanceMatrix = calculateDistanceMatrix(data);
+
+     const clusters = dbscan(distanceMatrix);
+     const clusterResults = clusters.map((cluster) => {
+  const questions = cluster.map((idx) => data[idx].content);
+  return {
+    representative: questions[0], // First question as representative
+    count: questions.length, // Number of questions in the cluster
+  };
+});
+console.log(clusterResults)
+// Sort clusters by size and get the top 10-20
+const topClusters = clusterResults
+  .sort((a, b) => b.count - a.count)
+  .slice(0, 2);
+
+
+ return res
+   .status(201)
+   .json(new ApiResponse(201, "most frequently asked questions", topClusters))
+
+})

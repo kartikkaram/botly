@@ -46,7 +46,7 @@ await initializeEmbedder();
              if(!contextText){
         throw new ApiError( 404,"context text was not created." );
   }
-  console.log(contextText)
+  
   const prompt = `${bot.prompt}\n\nUse the following context to answer:\n${contextText}\n\nUser: ${userMessage}\n
   avoid replying to messages that are out of bot's capabilities or not matching to its target audience
   Bot:`;
@@ -57,7 +57,7 @@ await initializeEmbedder();
 if(!reply){
   throw new ApiError(401,"no response from the bot")
 }
-await updateDashboard({ipaddress,apikey:bot.apikey,userMessage,reply})
+await updateDashboard({ipaddress,apikey:bot.apikey,userMessage,reply,userEmbedding})
   return res
   .status(201)
   .json(new ApiResponse(201,"bot response",reply))

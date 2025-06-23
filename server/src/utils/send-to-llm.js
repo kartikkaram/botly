@@ -1,6 +1,7 @@
 import axios from "axios";
 import dotenv from 'dotenv';
 import { GoogleGenAI } from "@google/genai";
+import { ApiError } from "./apiError.js";
 dotenv.config({path:"src/.env"});
 
 // Replace these with your actual API keys
@@ -36,7 +37,7 @@ const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY});
 
   } catch (error) {
     console.error("Gemini API error:", error?.response?.data || error.message);
-    return "Error reaching Gemini API.";
+    throw new ApiError(404, "no response recieved from gemini")
   }
 };
 
