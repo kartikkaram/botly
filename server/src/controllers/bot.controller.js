@@ -94,3 +94,28 @@ return res
 .json(new ApiResponse(200,"apikey renewed", apiKey))
 
 })
+
+
+
+export const updateBot = AsyncHandler(async (req, res) => {
+  const { apikey } = req.headers;
+  const updateData = req.body;
+
+  if (!apikey) {
+    throw new ApiError(400,"API key is required");
+  }
+
+  const updatedBot = await Bot.findOneAndUpdate(
+    { apikey },
+    { $set: updateData },
+    { new: true } // Return the updated document
+  );
+
+  if (!updatedBot) {
+    throw new ApiError(404,"Bot not found with the provided API key");
+  }
+
+ return res
+ .status(200)
+ .json(new ApiResponse(200,"Bot updated successfully", updatedBot));
+});

@@ -7,12 +7,19 @@ import { generatePromptForBot } from "../utils/promptGenerator.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 import { getEmbedding, initializeEmbedder } from "../utils/embeddings.js";
 import { apiKeyGenerator } from "../utils/apikeyGenerator.js";
+import { deleteFromTemp } from "../utils/deleteFromTemp.js";
 
 
 
 
 export const formController=AsyncHandler(async (req, res)=> {
     
+   const data = JSON.parse(req.body.data);
+
+if (!data) {
+  throw new ApiError(400, "Missing 'data' field in request body");
+}
+
     const {
         botname,
         bottype,
@@ -23,14 +30,16 @@ export const formController=AsyncHandler(async (req, res)=> {
         responsestyle,
         capabilities,
         restrictedtopics,
-        websitecontext,
+        jsoncontext,
         websiteurl,
-    } = req.body;
+    } = data
 
     const uploadedFilePath=req?.files?.file?.[0].path
-
+if(!jsoncontext && !uploadedFilePath){
+  throw new ApiError(404, "either provide website context in json or csv")
+}
  //  const { userId:clerkId } = getAuth(req)
-  const clerkId="user_2yRzzw626Vx3mbopwcEljvnG8ma"
+  const clerkId="user_2yRzzw626Vx3mbopwcEljskbsk"
   // Validation: Ensure all required fields are present
   if (
     !botname ||
@@ -40,7 +49,6 @@ export const formController=AsyncHandler(async (req, res)=> {
     !targetaudience ||
     !responsestyle ||
     !capabilities ||
-    !websitecontext ||
     !websiteurl 
   ) {
     throw new ApiError(400, "All required fields must be provided.");
@@ -65,15 +73,30 @@ export const formController=AsyncHandler(async (req, res)=> {
     throw new ApiError(401,"error while creating prompt")
   }
 
-  // Process websitecontext (JSON or JS object)
+  // Process jsoncontext (JSON or JS object)
   let parsedContext;
-  try {
-    parsedContext = typeof websitecontext === "string"
-      ? JSON.parse(websitecontext)
-      : websitecontext;
-  } catch (err) {
-    throw new ApiError(400, "Invalid website context format");
+  if(jsoncontext){
+    try {
+      parsedContext = typeof jsoncontext === "string"
+      ? JSON.parse(jsoncontext)
+      : jsoncontext;
+    } catch (err) {
+      throw new ApiError(400, "Invalid website context format");
+    }
   }
+  if(uploadedFilePath){
+    try {
+         parsedContext=await csvParser(uploadedFilePath)
+           if(parsedContext){
+                 await deleteFromTemp(uploadedFilePath)
+                }
+      } catch (error) {
+        await deleteFromTemp(uploadedFilePath)
+          throw new ApiError(401, "error while parsing csv")
+      }
+  }
+  console.log(parsedContext)
+  debugger
 
   // Generate embeddings for each context item and enrich it
   await initializeEmbedder();
@@ -113,14 +136,13 @@ export const formController=AsyncHandler(async (req, res)=> {
   if(!newBot){
     throw new ApiError(401,"error while creating bot document")
   }
+  const botWithoutEmbeddings = newBot.toObject();
+botWithoutEmbeddings.websitecontext = botWithoutEmbeddings.websitecontext.map(
+  ({ input, output }) => ({ input, output })
+);
   
-  // try {
-  //     const parsedCsvData=await csvParser(uploadedFilePath)
-  //   } catch (error) {
-  //       throw new ApiError(401, "error while parsing csv")
-  //   }
-    res
+   return  res
       .status(201)
-      .json(new ApiResponse(201, "Bot created successfully", newBot));
+      .json(new ApiResponse(201, "Bot created successfully", botWithoutEmbeddings));
 
 })
