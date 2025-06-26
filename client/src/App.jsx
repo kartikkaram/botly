@@ -6,6 +6,8 @@ import BotlyBot from 'botly-bot';
 import 'botly-bot/dist/botly-bot.css';
 
 import Index from './pages/LandingPage';
+import Sidebar from './components/dashboard/ui/Sidebar';
+import CreateBot from './components/dashboard/CreateBot';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -25,7 +27,10 @@ function App() {
         title="CODExJATIN Assistant"
       />
     </header> */}
-    <Index/>
+    {/* <Index/> */}
+
+    <Sidebar/>
+    <CreateBot/>
     </>
   )
 }
