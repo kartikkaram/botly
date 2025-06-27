@@ -322,14 +322,22 @@ const ContextSetupStep = ({ formData, data, updateFormData, validationErrors }) 
               )}
             </motion.div>
           )}
-
-         {formData.contextInputType === 'csv' && (
+      {formData.contextInputType === 'csv' && (
           <CsvUpload
+          key='csv'
           data={data}
           validationErrors={validationErrors}
-          
           />
 )}
+      {validationErrors && (
+            <motion.p 
+              className="text-red-500 text-sm"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              {validationErrors?.manualContext || validationErrors?.jsonContext || validationErrors?.csvContext }
+            </motion.p>
+          )}
         </AnimatePresence>
               <motion.div 
           className="space-y-2"

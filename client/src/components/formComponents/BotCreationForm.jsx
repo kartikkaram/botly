@@ -93,8 +93,12 @@ const [validationErrors, setValidationErrors] = useState(() => {
 
   const validateStep2 = () => {
     const errors = {};
-    
-    if (formData.contextInputType === 'json') {
+    if(formData.contextInputType==='manual'){
+      if(!formData.manualContext || formData.manualContext.length==0){
+        errors.manualContext='context is required'
+      }
+    }
+   else if (formData.contextInputType === 'json') {
       if (!formData.jsonContext.trim()) {
         errors.jsonContext = 'JSON context is required';
       } else {
@@ -107,7 +111,7 @@ const [validationErrors, setValidationErrors] = useState(() => {
     }else if(formData.contextInputType === 'csv'){
       const file = data.current.get("file"); 
   if (!file || file.type !== "text/csv") {
-       errors.csvFile = 'Invalid file';
+       errors.csvContext = 'Invalid file';
   }
     }
      if (!formData.websiteUrl.trim()) {
