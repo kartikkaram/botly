@@ -131,11 +131,11 @@ export const addContext=AsyncHandler(async (req, res) => {
   if (!data) {
   throw new ApiError(400, "Missing 'data' field in request body");
 }
-const{jsonContext, manualContext}=data
+const{jsonContext}=data
 
     const uploadedFilePath=req?.files?.file?.[0].path
-if((!jsonContext || jsonContext=='' ) &&  !uploadedFilePath  && !manualContext){
-  throw new ApiError(404, "either provide website context in json or csv")
+if(!jsonContext || jsonContext==""){
+  throw new ApiError(404, " provide website context in json ")
 }
 
 const bot=await Bot.findOne({apikey})
@@ -152,22 +152,6 @@ const bot=await Bot.findOne({apikey})
         throw new ApiError(400, "Invalid website context format");
       }
     }
-  else  if(uploadedFilePath){
-      try {
-           parsedContext=await csvParser(uploadedFilePath)
-             if(parsedContext){
-                   await deleteFromTemp(uploadedFilePath)
-                  }
-        } catch (error) {
-          await deleteFromTemp(uploadedFilePath)
-            throw new ApiError(401, "error while parsing csv")
-        }
-    }
-    else if(manualContext){
-      parsedContext=manualContext
-    }
-   
-  
     // Generate embeddings for each context item and enrich it
     await initializeEmbedder();
     const enrichedContext = await Promise.all(
