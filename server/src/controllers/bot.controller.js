@@ -8,6 +8,8 @@ import { updateDashboard } from "../utils/dashboard.js";
 import { AsyncHandler } from "../utils/asyncHandler.js";
 import { Dashboard } from "../models/dashboard.model.js";
 import { apiKeyGenerator } from "../utils/apikeyGenerator.js";
+import { csvParser } from "../utils/csv-parser.js";
+import { deleteFromTemp } from "../utils/deleteFromTemp.js";
 
 export const chatWithBot = AsyncHandler(async (req, res) => {
   const { apikey } = req.headers;
@@ -119,3 +121,74 @@ export const updateBot = AsyncHandler(async (req, res) => {
  .status(200)
  .json(new ApiResponse(200,"Bot updated successfully", updatedBot));
 });
+
+export const addContext=AsyncHandler(async (req, res) => {
+  const {apikey}=req.headers
+  if (!apikey) {
+    throw new ApiError(400,"API key is required");
+  }
+  data=req.body.data
+  if (!data) {
+  throw new ApiError(400, "Missing 'data' field in request body");
+}
+const{jsonContext, manualContext}=data
+
+    const uploadedFilePath=req?.files?.file?.[0].path
+if((!jsonContext || jsonContext=='' ) &&  !uploadedFilePath  && !manualContext){
+  throw new ApiError(404, "either provide website context in json or csv")
+}
+
+const bot=await Bot.findOne({apikey})
+  if(!bot){
+    throw new ApiError(400,"bot not found")
+  }
+  let parsedContext;
+    if(jsonContext){
+      try {
+        parsedContext = typeof jsonContext === "string"
+        ? JSON.parse(jsonContext)
+        : jsonContext;
+      } catch (err) {
+        throw new ApiError(400, "Invalid website context format");
+      }
+    }
+  else  if(uploadedFilePath){
+      try {
+           parsedContext=await csvParser(uploadedFilePath)
+             if(parsedContext){
+                   await deleteFromTemp(uploadedFilePath)
+                  }
+        } catch (error) {
+          await deleteFromTemp(uploadedFilePath)
+            throw new ApiError(401, "error while parsing csv")
+        }
+    }
+    else if(manualContext){
+      parsedContext=manualContext
+    }
+   
+  
+    // Generate embeddings for each context item and enrich it
+    await initializeEmbedder();
+    const enrichedContext = await Promise.all(
+      parsedContext.map(async (entry) => {
+        const embedding = await getEmbedding(entry.input);
+        return {
+          input: entry.input,
+          output: entry.output,
+          embedding,
+        };
+      })
+    );
+    if(!enrichedContext){
+      throw new ApiError(400, "error while creating embeddings")
+    }
+  
+    bot.websitecontext.push(enrichedContext)
+
+    await bot.save()
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200,"faqs updated",{}))
+})
