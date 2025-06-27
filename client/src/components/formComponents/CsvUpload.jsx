@@ -1,32 +1,30 @@
 import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { motion } from "framer-motion";
-import {FileSpreadsheet} from 'lucide-react'
+import { FileSpreadsheet, FileCheck2, AlertCircle } from "lucide-react";
 
 const CsvUpload = ({ data, validationErrors }) => {
-  const maxFileSize = 5 * 1024 * 1024; // 5MB limit
-  const [uploadedFileName, setUploadedFileName] = useState(null); // State for file name
+  const maxFileSize = 5 * 1024 * 1024; // 5MB
+  const [uploadedFileName, setUploadedFileName] = useState(null);
 
   const onDrop = (acceptedFiles, fileRejections) => {
-    // Handle valid files
     if (acceptedFiles.length > 0) {
       const file = acceptedFiles[0];
-      validationErrors.csvFile = null; // Clear errors directly
-      data.current.set("file", file); // Replace previous file
-      setUploadedFileName(file.name); // Update file name
+      validationErrors.csvFile = null;
+      data.current.set("file", file);
+      setUploadedFileName(file.name);
     }
 
-    // Handle rejected files
     if (fileRejections.length > 0) {
       const { errors } = fileRejections[0];
       errors.forEach((error) => {
         if (error.code === "file-too-large") {
           validationErrors.csvFile = "File size exceeds 5MB.";
         } else if (error.code === "file-invalid-type") {
-          validationErrors.csvFile = "Invalid file type. Please upload a .csv file.";
+          validationErrors.csvFile = "Only .csv files are accepted.";
         }
       });
-      setUploadedFileName(null); // Clear file name on error
+      setUploadedFileName(null);
     }
   };
 
@@ -45,41 +43,72 @@ const CsvUpload = ({ data, validationErrors }) => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
     >
-      <label className="block text-sm font-semibold text-gray-700">
-        Upload CSV *
+      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200">
+        Upload CSV <span className="text-red-500">*</span>
       </label>
+
       <div
         {...getRootProps()}
-        className={`border-2 rounded-xl px-4 py-6 text-center cursor-pointer transition-all duration-200 ${
+        className={`relative border-2 px-6 py-8 rounded-2xl text-center cursor-pointer backdrop-blur-md bg-white/10 dark:bg-white/5 border-dashed transition-all duration-300
+        ${
           isDragActive
-            ? "border-blue-500 bg-blue-100"
+            ? "border-blue-400 bg-blue-100/20 dark:bg-blue-900/20"
             : validationErrors.csvFile
-            ? "border-red-300 bg-red-50"
-            : "border-gray-200 hover:border-gray-300"
+            ? "border-red-400 bg-red-50/10"
+            : "border-gray-300 hover:border-blue-300"
         }`}
       >
         <input {...getInputProps()} />
+
         {isDragActive ? (
-          <p className="text-blue-500">Drop the file here...</p>
+          <motion.p
+            className="text-blue-500 font-medium"
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+          >
+            Drop your file here...
+          </motion.p>
         ) : uploadedFileName ? (
-          <p className="text-green-800 flex justify-center">Uploaded:<FileSpreadsheet /> {uploadedFileName}</p>
+          <motion.div
+            className="flex flex-col items-center justify-center text-green-600"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            <FileCheck2 className="w-6 h-6 mb-1" />
+            <p className="text-sm font-medium">{uploadedFileName}</p>
+          </motion.div>
         ) : (
-          <p>
-            Drag and drop your CSV file here, or <span className="text-blue-500 underline">browse</span>
-          </p>
+          <div className="flex flex-col items-center justify-center text-gray-500 dark:text-gray-400">
+            <FileSpreadsheet className="w-8 h-8 mb-2" />
+            <p className="text-sm text-white/80">
+              Drag & drop your CSV here or{" "}
+              <span className="text-blue-300 underline">browse</span>
+            </p>
+          </div>
         )}
       </div>
+
       {validationErrors.csvFile && (
-        <motion.p
-          className="text-red-500 text-sm"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
+        <motion.div
+          className="flex items-center text-sm text-red-500 gap-2"
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
         >
+          <AlertCircle size={16} />
           {validationErrors.csvFile}
-        </motion.p>
+        </motion.div>
       )}
-      <p className="text-sm text-gray-600">
-        The CSV should have headers <strong>input</strong> and <strong>output</strong>. Each row represents a context entry.
+
+      <p className="text-sm text-gray-500 dark:text-gray-400">
+        Make sure your CSV has headers:{" "}
+        <code className="font-semibold text-indigo-600 dark:text-indigo-300">
+          input
+        </code>{" "}
+        and{" "}
+        <code className="font-semibold text-indigo-600 dark:text-indigo-300">
+          output
+        </code>
+        .
       </p>
     </motion.div>
   );

@@ -228,93 +228,98 @@ const [validationErrors, setValidationErrors] = useState(() => {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-8 px-4">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <motion.div 
-          className="text-center mb-8"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <h1 className="text-4xl font-bold gradient-text mb-2">Create Your Bot</h1>
-          <p className="text-gray-600 text-lg">Build an intelligent assistant in just a few steps</p>
-        </motion.div>
+return (
+  <div className="min-h-screen bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 py-10 px-4 text-white lg:pl-20">
+    <div className="max-w-4xl mx-auto">
+      {/* Header */}
+      <motion.div 
+        className="text-center mb-10"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 to-blue-400 bg-clip-text text-transparent">
+          Create Your Bot
+        </h1>
+        <p className="text-sm text-zinc-400 mt-2">
+          Build an intelligent assistant in just a few steps
+        </p>
+      </motion.div>
 
-        {/* Step Indicator */}
-        <StepIndicator steps={steps} currentStep={currentStep} />
+      {/* Step Indicator */}
+      <StepIndicator steps={steps} currentStep={currentStep} />
 
-        {/* Form Container */}
-        <motion.div 
-          className="bg-white rounded-2xl shadow-xl p-8 mb-8"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentStep}
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -50 }}
-              transition={{ duration: 0.3 }}
-            >
-              {renderStep()}
-            </motion.div>
-          </AnimatePresence>
-        </motion.div>
-
-        {/* Navigation */}
-        {!submitSuccess && (
-          <motion.div 
-            className="flex justify-between items-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
+      {/* Form Container */}
+      <motion.div 
+        className="rounded-2xl bg-white/10 backdrop-blur-lg border border-white/20 shadow-2xl p-8 mt-6 mb-12"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentStep}
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.3 }}
           >
-            <button
-              onClick={handlePrevious}
-              disabled={currentStep === 1}
-              className={`flex items-center px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
-                currentStep === 1
-                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  : 'bg-white text-gray-700 hover:bg-gray-50 shadow-md hover:shadow-lg border'
-              }`}
-            >
-              <ChevronLeft className="w-5 h-5 mr-2" />
-              Previous
-            </button>
-
-            {currentStep < 3 ? (
-              <button
-                onClick={handleNext}
-                className="flex items-center px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
-              >
-                Next
-                <ChevronRight className="w-5 h-5 ml-2" />
-              </button>
-            ) : (
-              <button
-                onClick={handleSubmit}
-                disabled={isSubmitting}
-                className="flex items-center px-8 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-medium hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                    Creating Bot...
-                  </>
-                ) : (
-                  'Create Bot'
-                )}
-              </button>
-            )}
+            {renderStep()}
           </motion.div>
-        )}
-      </div>
+        </AnimatePresence>
+      </motion.div>
+
+      {/* Navigation */}
+      {!submitSuccess && (
+        <motion.div 
+          className="flex justify-between items-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          <button
+            onClick={handlePrevious}
+            disabled={currentStep === 1}
+            className={`flex items-center px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
+              currentStep === 1
+                ? 'bg-white/10 text-zinc-500 cursor-not-allowed'
+                : 'bg-white/10 hover:bg-white/20 text-white border border-white/20 shadow-md hover:shadow-lg'
+            }`}
+          >
+            <ChevronLeft className="w-5 h-5 mr-2" />
+            Previous
+          </button>
+
+          {currentStep < 3 ? (
+            <button
+              onClick={handleNext}
+              className="flex items-center px-8 py-3 bg-gradient-to-r from-indigo-500 to-blue-500 text-white rounded-xl font-medium hover:from-indigo-600 hover:to-blue-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+            >
+              Next
+              <ChevronRight className="w-5 h-5 ml-2" />
+            </button>
+          ) : (
+            <button
+              onClick={handleSubmit}
+              disabled={isSubmitting}
+              className="flex items-center px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-medium hover:from-green-600 hover:to-emerald-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                  Creating Bot...
+                </>
+              ) : (
+                'Create Bot'
+              )}
+            </button>
+          )}
+        </motion.div>
+      )}
     </div>
-  );
+  </div>
+);
+
 };
 
 export default BotCreationForm;
