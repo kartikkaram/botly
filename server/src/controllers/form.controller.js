@@ -13,43 +13,50 @@ import { deleteFromTemp } from "../utils/deleteFromTemp.js";
 
 
 export const formController=AsyncHandler(async (req, res)=> {
-    
-   const data = JSON.parse(req.body.data);
+  let data
+if(typeof req.body.data=== "string"){
+  console.log("this ran")
+   data = JSON.parse(req.body.data);
+}else{
+  data=req.body.data
+}
 
 if (!data) {
   throw new ApiError(400, "Missing 'data' field in request body");
 }
 
     const {
-        botname,
-        bottype,
+        botName,
+        botType,
         model,
         language,
         description,
-        targetaudience,
-        responsestyle,
+        targetAudience,
+        responseStyle,
         capabilities,
-        restrictedtopics,
-        jsoncontext,
-        websiteurl,
+        restrictedTopics,
+        jsonContext,
+        manualContext,
+        websiteUrl,
     } = data
+   
 
     const uploadedFilePath=req?.files?.file?.[0].path
-if(!jsoncontext && !uploadedFilePath){
+if((!jsonContext || jsonContext=='' ) &&  !uploadedFilePath  && !manualContext){
   throw new ApiError(404, "either provide website context in json or csv")
 }
  //  const { userId:clerkId } = getAuth(req)
   const clerkId="user_2yRzzw626Vx3mbopwcEljskbsk"
   // Validation: Ensure all required fields are present
   if (
-    !botname ||
-    !bottype ||
+    !botName ||
+    !botType ||
     !model ||
     !description ||
-    !targetaudience ||
-    !responsestyle ||
+    !targetAudience ||
+    !responseStyle ||
     !capabilities ||
-    !websiteurl 
+    !websiteUrl 
   ) {
     throw new ApiError(400, "All required fields must be provided.");
   }
@@ -61,30 +68,32 @@ if(!jsoncontext && !uploadedFilePath){
 
   // Generate prompt using template
   const structuredPrompt = generatePromptForBot({
-    bottype,
-    websiteurl,
+    bottype:botType,
+    websiteurl:websiteUrl,
     description,
-    responsestyle,
-    targetaudience,
-    restrictedtopics,
+    responsestyle:responseStyle,
+    targetaudience:targetAudience,
+    restrictedtopics:restrictedTopics,
     capabilities
   });
   if(!structuredPrompt){
     throw new ApiError(401,"error while creating prompt")
   }
 
+ 
+
   // Process jsoncontext (JSON or JS object)
   let parsedContext;
-  if(jsoncontext){
+  if(jsonContext){
     try {
-      parsedContext = typeof jsoncontext === "string"
-      ? JSON.parse(jsoncontext)
-      : jsoncontext;
+      parsedContext = typeof jsonContext === "string"
+      ? JSON.parse(jsonContext)
+      : jsonContext;
     } catch (err) {
       throw new ApiError(400, "Invalid website context format");
     }
   }
-  if(uploadedFilePath){
+else  if(uploadedFilePath){
     try {
          parsedContext=await csvParser(uploadedFilePath)
            if(parsedContext){
@@ -95,8 +104,10 @@ if(!jsoncontext && !uploadedFilePath){
           throw new ApiError(401, "error while parsing csv")
       }
   }
-  console.log(parsedContext)
-  debugger
+  else if(manualContext){
+    parsedContext=manualContext
+  }
+ 
 
   // Generate embeddings for each context item and enrich it
   await initializeEmbedder();
@@ -119,30 +130,26 @@ if(!jsoncontext && !uploadedFilePath){
   const newBot = await Bot.create({
     ownerid: user._id,
     apikey:apiKey,
-    botname,
-    bottype,
+    botname:botName,
+    bottype:botType,
     model,
     language,
     description,
-    targetaudience,
-    responsestyle,
+    targetaudience:targetAudience,
+    responsestyle:responseStyle,
     capabilities,
-    restrictedtopics,
+    restrictedtopics:restrictedTopics,
     websitecontext: enrichedContext, // includes embedding now
-    websiteurl,
+    websiteurl:websiteUrl,
     prompt: structuredPrompt,
   });
 
   if(!newBot){
     throw new ApiError(401,"error while creating bot document")
   }
-  const botWithoutEmbeddings = newBot.toObject();
-botWithoutEmbeddings.websitecontext = botWithoutEmbeddings.websitecontext.map(
-  ({ input, output }) => ({ input, output })
-);
   
    return  res
       .status(201)
-      .json(new ApiResponse(201, "Bot created successfully", botWithoutEmbeddings));
+      .json(new ApiResponse(201, "Bot created successfully", newBot.apikey));
 
 })

@@ -8,6 +8,7 @@ import 'botly-bot/dist/botly-bot.css';
 import Index from './pages/LandingPage';
 import Sidebar from './components/dashboard/ui/Sidebar';
 import CreateBot from './components/dashboard/CreateBot';
+import BotCreationForm from './components/formComponents/BotCreationForm';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -30,7 +31,7 @@ function App() {
     {/* <Index/> */}
 
     <Sidebar/>
-    <CreateBot/>
+    <BotCreationForm/>
     </>
   )
 }

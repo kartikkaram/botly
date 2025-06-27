@@ -4,7 +4,8 @@ import {upload} from '../middlewares/multer.middlewares.js'
 import { formController } from '../controllers/form.controller.js'
 const formRouter=express.Router()
 
-formRouter.post('/botForm',express.json({ limit: '16kb' }),upload.fields([
+
+formRouter.post('/botForm',upload.fields([
 {name:'file', maxCount:1 }
 ]),formController)
 
