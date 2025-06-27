@@ -160,13 +160,11 @@ const [validationErrors, setValidationErrors] = useState(() => {
   
     try {
       const response = await axios.post('http://localhost:3001/frontend-api/botForm', data.current);
-      console.log(response)
       setApiKey(response.data.data || 'bot_key_' + Math.random().toString(36).substr(2, 9));
       setSubmitSuccess(true);
     } catch (error) {
       console.error('Submission error:', error);
       setSubmitError(
-        error.response?.data?.message || 
         'Failed to create bot. Please try again.'
       );
     } finally {
