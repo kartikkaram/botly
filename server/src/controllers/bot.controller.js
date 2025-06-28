@@ -10,6 +10,7 @@ import { Dashboard } from "../models/dashboard.model.js";
 import { apiKeyGenerator } from "../utils/apikeyGenerator.js";
 import { csvParser } from "../utils/csv-parser.js";
 import { deleteFromTemp } from "../utils/deleteFromTemp.js";
+import { User } from "../models/user.models.js";
 
 export const chatWithBot = AsyncHandler(async (req, res) => {
   const { apikey } = req.headers;
@@ -175,4 +176,39 @@ const bot=await Bot.findOne({apikey})
     return res
     .status(200)
     .json(new ApiResponse(200,"faqs updated",{}))
+})
+
+export const getBot=AsyncHandler(async (req, res)=> {
+  
+    // const clerkId = req.auth?.userId;
+    const clerkId='user_2yRzzw626Vx3mbopwcEljvnG8ma'
+       if(!clerkId){
+          throw new ApiError(400,"user has not signed in")
+       }
+  
+      const self= await User.findOne({clerkid:clerkId})
+  
+      if(!self){
+          throw new ApiError(400,"user not found")
+      }
+
+      const bot =await Bot.find({ownerid:self._id}).lean()
+
+     if(bot.length==0){
+    throw new ApiError(400,"bot not found")
+  }
+const bots=bot.map((bot) => {
+  return {...bot, websitecontext:bot.websitecontext.map((context) => {
+    return {input:context.input,output:context.output}
+  }
+  
+  )}
+}
+)
+
+  return res
+  .status(200)
+  .json(new ApiResponse(200,"user bots", bots))
+
+
 })

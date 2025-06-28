@@ -173,6 +173,9 @@ const [validationErrors, setValidationErrors] = useState(() => {
       );
     } finally {
       setIsSubmitting(false);
+      localStorage.removeItem("formData")
+      localStorage.removeItem("validationErrors")
+      localStorage.removeItem("currentStep")
     }
   };
 

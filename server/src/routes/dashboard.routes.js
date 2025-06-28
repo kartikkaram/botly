@@ -4,9 +4,9 @@ import { addRatings, getDashboard, mostFrequentlyAskedQuestions, refinedDashboar
 const dashboardRouter=express.Router()
 
 
-dashboardRouter.post('/getDashboard',express.json({ limit: '16kb' }) ,getDashboard)
+dashboardRouter.get('/getDashboard',express.json({ limit: '16kb' }) ,getDashboard)
 dashboardRouter.post('/addRatings',express.json({ limit: '16kb' }) ,addRatings)
-dashboardRouter.post('/getRefinedDashboard',express.json({ limit: '16kb' }) ,refinedDashboard)
-dashboardRouter.post('/getMFAQs',express.json({ limit: '16kb' }) ,mostFrequentlyAskedQuestions)
+dashboardRouter.get('/getRefinedDashboard',express.json({ limit: '16kb' }) ,refinedDashboard)
+dashboardRouter.get('/getMFAQs',express.json({ limit: '16kb' }) ,mostFrequentlyAskedQuestions)
 
 export {dashboardRouter}

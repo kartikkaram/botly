@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -18,9 +18,9 @@ import {
 } from "react-icons/md";
 import { FiUser } from "react-icons/fi";
 import { BiBarChartAlt2 } from "react-icons/bi";
-
+import axios from 'axios';
 const sampleAnalytics = {
-  avgResponseTime: 1.45,
+  avgResponseTime: 55,
   totalRequests: 30,
   averageRating: 4.2,
   ratingBreakdown: { "1": 2, "2": 1, "3": 3, "4": 10, "5": 14 },
@@ -30,6 +30,10 @@ const sampleAnalytics = {
     "2025-06-27T09:50:00Z"
   ],
 };
+  
+console.log("hello")
+
+
 
 const BotlyDashboard = ({ bot, analytics = sampleAnalytics, onContextUpdate }) => {
   const [isApiVisible, setIsApiVisible] = useState(false);

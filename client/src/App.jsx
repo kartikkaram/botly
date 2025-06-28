@@ -114,6 +114,7 @@ const sampleBots = [
 
 function App() {
   const [selectedBot, setSelectedBot] = useState(null); // <-- Active bot
+  
 
   return (
     <>
