@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 import { BsRobot } from "react-icons/bs";
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react'
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -73,6 +74,12 @@ const Navbar = () => {
           </a>
           <a href="#features" className="nav-link">About</a>
           <a href="#details" className="nav-link">Contact</a>
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
         </nav>
 
         {/* Mobile menu button - increased touch target */}

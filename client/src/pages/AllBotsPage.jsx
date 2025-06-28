@@ -11,6 +11,8 @@ import {
 const AllBotsPage = ({ bots, onBotSelect }) => {
   const hasBots = bots && bots.length > 0;
 
+  
+
   return (
     <section className="min-h-screen px-6 lg:pl-24 py-12 bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 text-white">
       {/* Header */}

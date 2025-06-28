@@ -1,6 +1,6 @@
 // import { useState } from 'react'
 // import './App.css'
-// import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react'
+
 // import BotlyBot from 'botly-bot';
 
 // import 'botly-bot/dist/botly-bot.css';
@@ -90,6 +90,9 @@ import "./App.css";
 import BotlyDashboard from "./pages/Dashboard";
 import Sidebar from "./components/dashboard/ui/Sidebar";
 import AllBotsPage from "./pages/AllBotsPage";
+import { useEffect } from 'react';
+import axios from 'axios'
+
 
 // Mock multiple bots for now
 const sampleBots = [
@@ -112,15 +115,30 @@ const sampleBots = [
   },
 ];
 
+
+
 function App() {
   const [selectedBot, setSelectedBot] = useState(null); // <-- Active bot
-  
+  const [bots,setBots] = useState(null);
+
+  const fetchData=async () => {
+    try {
+      const response=await axios.get(`${import.meta.env.VITE_BASE_URL}/frontend-api/getBot`);
+      console.log(response);
+      setBots(response.data.data);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(()=>{
+fetchData()
+  },[])
 
   return (
     <>
       <Sidebar />
-      {!selectedBot ? (
-        <AllBotsPage bots={sampleBots} onBotSelect={setSelectedBot} />
+      {!selectedBot? (
+        <AllBotsPage bots={bots} onBotSelect={setSelectedBot} />
       ) : (
         <BotlyDashboard bot={selectedBot} />
       )}
