@@ -126,7 +126,7 @@ const pipeline = [
 
    return res
    .status(201)
-   .json(new ApiResponse(201, "refined data ", data))
+   .json(new ApiResponse(201, "refined data ", data[0]))
 
 }
 

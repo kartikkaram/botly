@@ -1,11 +1,11 @@
 // import { useState } from 'react'
 // import './App.css'
 
-// import BotlyBot from 'botly-bot';
+import BotlyBot from 'botly-bot';
 
-// import 'botly-bot/dist/botly-bot.css';
+import 'botly-bot/dist/botly-bot.css';
 
-// import Index from './pages/LandingPage';
+import Index from './pages/LandingPage';
 // import Sidebar from './components/dashboard/ui/Sidebar';
 // import CreateBot from './components/dashboard/CreateBot';
 import BotCreationForm from './components/formComponents/BotCreationForm';
@@ -92,6 +92,7 @@ import Sidebar from "./components/dashboard/ui/Sidebar";
 import AllBotsPage from "./pages/AllBotsPage";
 import { useEffect } from 'react';
 import axios from 'axios'
+import { Routes, Route } from 'react-router-dom';
 
 
 // Mock multiple bots for now
@@ -121,6 +122,7 @@ function App() {
   const [selectedBot, setSelectedBot] = useState(null); // <-- Active bot
   const [bots,setBots] = useState(null);
 
+
   const fetchData=async () => {
     try {
       const response=await axios.get(`${import.meta.env.VITE_BASE_URL}/frontend-api/getBot`);
@@ -130,20 +132,76 @@ function App() {
       console.log(error)
     }
   }
+
+  // const fetchAnalytics=async () => {
+  //   try {
+  //     const response=await axios.get(`${import.meta.env.VITE_BASE_URL}/frontend-api/getRefinedDashboard`,
+  //       {
+  //         headers:{
+  //           apikey: selectedBot?.apikey
+  //         }
+  //       }
+  //     );
+  //     console.log(response);
+  //     // setBots(response.data.data);
+
+  //     setAnalytics(response.data.data);
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+
+
   useEffect(()=>{
-fetchData()
+      fetchData()
   },[])
 
+  // useEffect(()=>{
+  //   fetchAnalytics()
+  // },[selectedBot])
+
+  const handleBotSelection = (bot)=>{
+    console.log("bot: ",bot)
+    setSelectedBot(bot);
+  }
+
+//   useEffect(() => {
+//   if (selectedBot) {
+//     console.log("Fetching analytics for bot:", selectedBot.botname);
+//     fetchAnalytics();
+//   }
+// }, [selectedBot]);
+
+
   return (
-    <>
-      <Sidebar />
-      {!selectedBot? (
-        <AllBotsPage bots={bots} onBotSelect={setSelectedBot} />
-      ) : (
-        <BotlyDashboard bot={selectedBot} />
-      )}
-      {/* <BotCreationForm /> */}
-    </>
+    <Routes>
+      {/* No Sidebar */}
+      <Route path="/" element={<Index />} />
+
+      {/* With Sidebar for internal routes */}
+      <Route
+        path="/bots"
+        element={
+          <>
+            <Sidebar />
+            {!selectedBot ? (
+              <AllBotsPage bots={bots} onBotSelect={handleBotSelection} />
+            ) : (
+              <BotlyDashboard bot={selectedBot} setSelectedBot={setSelectedBot} />
+            )}
+          </>
+        }
+      />
+      <Route
+        path="/create-bot"
+        element={
+          <>
+            <Sidebar />
+            <BotCreationForm />
+          </>
+        }
+      />
+    </Routes>
   );
 }
 

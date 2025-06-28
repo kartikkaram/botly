@@ -19,22 +19,28 @@ const Charts = ({ analytics }) => {
     ],
   };
 
-  const requestData = {
-    labels: analytics.requesttimestamps.map((t) =>
-      new Date(t).toLocaleDateString()
-    ),
-    datasets: [
-      {
-        label: "Requests",
-        data: analytics.requesttimestamps.map(() => 1),
-        fill: true,
-        backgroundColor: "rgba(99,102,241,0.2)", // Indigo-500 w/ alpha
-        borderColor: "#6366f1",
-        tension: 0.4,
-        pointRadius: 0,
-      },
-    ],
-  };
+// Group request counts by date
+const groupedRequests = analytics.requesttimestamps.reduce((acc, timestamp) => {
+  const date = new Date(timestamp).toLocaleDateString();
+  acc[date] = (acc[date] || 0) + 1;
+  return acc;
+}, {});
+
+const requestData = {
+  labels: Object.keys(groupedRequests),
+  datasets: [
+    {
+      label: "Requests",
+      data: Object.values(groupedRequests),
+      fill: true,
+      backgroundColor: "rgba(99,102,241,0.2)", // Indigo-500 w/ alpha
+      borderColor: "#6366f1",
+      tension: 0.4,
+      pointRadius: 3,
+    },
+  ],
+};
+
 
   return (
     <section className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">

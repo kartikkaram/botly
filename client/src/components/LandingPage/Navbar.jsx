@@ -3,11 +3,16 @@ import React, { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 import { BsRobot } from "react-icons/bs";
-import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react'
+import { useNavigate } from "react-router-dom";
+import { SignedIn, SignedOut, SignInButton, UserButton, useClerk } from "@clerk/clerk-react";
+
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const { signOut } = useClerk();
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -78,8 +83,24 @@ const Navbar = () => {
             <SignInButton />
           </SignedOut>
           <SignedIn>
+            <button
+              onClick={() => navigate("/bots")}
+              className="text-sm text-indigo-600 hover:underline font-medium"
+            >
+              Go to Dashboard
+            </button>
+            <button
+              onClick={async () => {
+                await signOut();
+                navigate("/");
+              }}
+              className="text-sm text-red-500 hover:underline font-medium"
+            >
+              Logout
+            </button>
             <UserButton />
           </SignedIn>
+
         </nav>
 
         {/* Mobile menu button - increased touch target */}
@@ -130,6 +151,28 @@ const Navbar = () => {
           >
             Contact
           </a>
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <button
+              onClick={() => navigate("/bots")}
+              className="text-sm text-indigo-600 hover:underline font-medium"
+            >
+              Go to Dashboard
+            </button>
+            <button
+              onClick={async () => {
+                await signOut();
+                navigate("/");
+              }}
+              className="text-sm text-red-500 hover:underline font-medium"
+            >
+              Logout
+            </button>
+            <UserButton />
+          </SignedIn>
+
         </nav>
       </div>
     </header>
