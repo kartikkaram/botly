@@ -59,7 +59,7 @@ const BotlyDashboard = ({ bot, setSelectedBot, onContextUpdate }) => {
   
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 text-white px-6 sm:px-12 py-10 space-y-10 lg:pl-20">
+    <div className="min-h-screen bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 text-white px-6 sm:px-12 py-10 space-y-10 lg:pl-20 pb-20">
       <Header setSelectedBot={setSelectedBot} />
 
       {/* Bot Info + API Key */}

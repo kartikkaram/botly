@@ -14,7 +14,7 @@ const AllBotsPage = ({ bots, onBotSelect }) => {
   
 
   return (
-    <section className="min-h-screen px-6 lg:pl-24 py-12 bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 text-white">
+    <section className="min-h-screen px-6 lg:pl-24 py-12 bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 text-white pb-25">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
@@ -31,7 +31,7 @@ const AllBotsPage = ({ bots, onBotSelect }) => {
           </p>
         </div>
         <button
-          onClick={() => alert("Redirect to create bot")}
+          onClick={() => (window.location.href = "/create-bot")}
           className="flex items-center gap-2 border border-white text-white hover:bg-white hover:text-black transition px-4 py-2 rounded-md shadow-md"
         >
           <PlusCircle size={18} /> New Bot

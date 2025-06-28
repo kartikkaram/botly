@@ -232,7 +232,7 @@ const [validationErrors, setValidationErrors] = useState(() => {
   };
 
 return (
-  <div className="min-h-screen bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 py-10 px-4 text-white lg:pl-20">
+  <div className="min-h-screen bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 py-10 px-4 text-white lg:pl-20 pb-25">
     <div className="max-w-4xl mx-auto">
       {/* Header */}
       <motion.div 
