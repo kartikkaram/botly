@@ -179,7 +179,7 @@ const bot=await Bot.findOne({apikey})
 
 export const getBot=AsyncHandler(async (req, res)=> {
   
-     const clerkId = req.auth?.userId;
+  const { userId:clerkId } = getAuth(req)
   
        if(!clerkId){
           throw new ApiError(400,"user has not signed in")

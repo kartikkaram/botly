@@ -8,7 +8,8 @@ import { AsyncHandler } from "../utils/asyncHandler.js";
 
 export const getSelf=AsyncHandler(async (req, res) => {
   
-     const clerkId = req.auth?.userId;
+     const { userId } = req.auth();
+const clerkId = userId;
      if(!clerkId){
         throw new ApiError(400,"user has not signed in")
      }
