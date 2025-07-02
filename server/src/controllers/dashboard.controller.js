@@ -166,7 +166,7 @@ console.log(clusterResults)
 // Sort clusters by size and get the top 10-20
 const topClusters = clusterResults
   .sort((a, b) => b.count - a.count)
-  .slice(0, 2);
+  .slice(0, 10);
 
 
  return res

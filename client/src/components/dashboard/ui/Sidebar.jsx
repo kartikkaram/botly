@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Bot, BookOpen, LogOut } from "lucide-react";
+import { Plus, Bot, BookOpen, LogOut, Beaker, FlaskConical } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { BsRobot } from 'react-icons/bs';
@@ -9,6 +9,7 @@ import { useClerk,SignedIn, UserButton } from "@clerk/clerk-react";
 const navItems = [
   { label: "Create Bot", icon: <Plus />, path: "/create-bot" },
   { label: "All Bots", icon: <Bot />, path: "/bots" },
+  { label:"Playground", icon:<FlaskConical/>, path:"/playground"},
   { label: "Docs", icon: <BookOpen />, path: "/docs" },
   { label: "Logout", icon: <LogOut />, path: "/logout", isLogout: true },
 ];

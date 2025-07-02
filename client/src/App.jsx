@@ -9,6 +9,7 @@ import AllBotsPage from "./pages/AllBotsPage";
 import { useEffect } from 'react';
 import axios from 'axios'
 import { Routes, Route } from 'react-router-dom';
+import PlaygroundPage from './pages/Playground';
 
 
 function App() {
@@ -65,6 +66,15 @@ function App() {
           <>
             <Sidebar />
             <BotCreationForm />
+          </>
+        }
+      />
+      <Route
+        path="/playground"
+        element={
+          <>
+            <Sidebar/>
+            <PlaygroundPage Bots={bots}/>
           </>
         }
       />
