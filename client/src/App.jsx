@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import axios from 'axios'
 import { Routes, Route } from 'react-router-dom';
 import { useAuth } from '@clerk/clerk-react';
+import PlaygroundPage from './pages/Playground';
 
 
 function App() {
@@ -71,6 +72,15 @@ const { getToken } = useAuth();
           <>
             <Sidebar />
             <BotCreationForm />
+          </>
+        }
+      />
+      <Route
+        path="/playground"
+        element={
+          <>
+            <Sidebar/>
+            <PlaygroundPage Bots={bots}/>
           </>
         }
       />

@@ -8,7 +8,7 @@ import { Mistral } from '@mistralai/mistralai';
 // Replace these with your actual API keys
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
-const apiKey = process.env.MISTRAL_API_KEY;
+const MISTRAL_API_KEY = process.env.MISTRAL_API_KEY;
 
 
 // === ROUTER FUNCTION ===
@@ -75,7 +75,7 @@ const sendToMistral = async (prompt)=>{
   try{
 
       
-    const client = new Mistral({apiKey: apiKey});
+    const client = new Mistral({apiKey: MISTRAL_API_KEY});
 
     const chatResponse = await client.chat.complete({
       model: 'open-mixtral-8x7b',

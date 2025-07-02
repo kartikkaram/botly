@@ -4,7 +4,7 @@ import { Bot, User, MessageSquare, Target } from 'lucide-react';
 
 const BotDetailsStep = ({ formData, updateFormData, validationErrors }) => {
   const botTypes = ['Assistant', 'Support Bot', 'Sales Bot'];
-  const models = ['Gemini', 'DeepSeek', 'Grok'];
+  const models = ['Gemini', 'DeepSeek', 'Mistral'];
   const languages = ['English', 'Spanish', 'French', 'German', 'Italian', 'Portuguese'];
 
   const inputVariants = {
