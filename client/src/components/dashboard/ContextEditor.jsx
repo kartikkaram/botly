@@ -70,18 +70,18 @@ const ContextEditor = ({ editingContext, setEditingContext, onSave }) => {
   };
 
   return (
-    <motion.section
+   <motion.section
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
-      className="rounded-2xl p-6 border border-zinc-700 bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 shadow-2xl text-white"
+      className="rounded-2xl p-6 border border-[var(--border-secondary)] bg-gradient-to-br from-[var(--gradient-from)] via-[var(--gradient-via)] to-[var(--gradient-to)] shadow-2xl text-[var(--text-primary)]"
     >
       <h2 className="text-xl font-bold flex items-center gap-2 mb-6 text-indigo-300">
         <FileText size={20} /> Bot Context Manager
       </h2>
 
       {editingContext.length === 0 && (
-        <p className="text-sm text-slate-400 italic mb-4">
+        <p className="text-sm text-[var(--text-secondary)] italic mb-4">
           No context entries yet. Use the buttons below to add some.
         </p>
       )}
@@ -89,7 +89,7 @@ const ContextEditor = ({ editingContext, setEditingContext, onSave }) => {
       {editingContext.map((ctx, idx) => (
         <div
           key={idx}
-          className="flex gap-3 mb-5 items-start bg-zinc-800/70 p-3 rounded-lg border border-zinc-600 shadow-inner"
+          className="flex gap-3 mb-5 items-start bg-[var(--bg-primary)] p-3 rounded-lg border border-[var(--border-secondary)] shadow-inner"
         >
           <div className="flex-1 space-y-2">
             <div className="flex items-center gap-2">
@@ -102,7 +102,7 @@ const ContextEditor = ({ editingContext, setEditingContext, onSave }) => {
                   setEditingContext(updated);
                 }}
                 placeholder="User says..."
-                className="w-full px-3 py-2 rounded bg-zinc-900 border border-zinc-600 text-sm text-white placeholder-slate-400 focus:ring-2 focus:ring-indigo-500 outline-none"
+                className="w-full px-3 py-2 rounded bg-[var(--bg-secondary)] border border-[var(--border-secondary)] text-sm text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:ring-2 focus:ring-indigo-500 outline-none"
               />
             </div>
             <textarea
@@ -114,7 +114,7 @@ const ContextEditor = ({ editingContext, setEditingContext, onSave }) => {
               }}
               placeholder="Bot responds..."
               rows={3}
-              className="w-full px-3 py-2 rounded bg-zinc-900 border border-zinc-600 text-sm text-white placeholder-slate-400 focus:ring-2 focus:ring-indigo-500 outline-none resize-none"
+              className="w-full px-3 py-2 rounded bg-[var(--bg-secondary)] border border-[var(--border-secondary)] text-sm text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:ring-2 focus:ring-indigo-500 outline-none resize-none"
             />
           </div>
           <button
@@ -175,14 +175,14 @@ const ContextEditor = ({ editingContext, setEditingContext, onSave }) => {
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="bg-zinc-800 text-white rounded-xl p-6 w-full max-w-md border border-zinc-600 shadow-2xl relative space-y-4"
+              className="bg-[var(--bg-primary)] text-[var(--text-primary)] rounded-xl p-6 w-full max-w-md border border-[var(--border-secondary)] shadow-2xl relative space-y-4"
               initial={{ scale: 0.9 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.9 }}
             >
               <button
                 onClick={() => setJsonModalOpen(false)}
-                className="absolute top-3 right-3 text-slate-400 hover:text-red-500"
+                className="absolute top-3 right-3 text-[var(--text-secondary)] hover:text-red-500"
               >
                 <X size={18} />
               </button>
@@ -193,7 +193,7 @@ const ContextEditor = ({ editingContext, setEditingContext, onSave }) => {
                 value={rawJson}
                 onChange={(e) => setRawJson(e.target.value)}
                 placeholder='Paste JSON like [{"input":"Hi","output":"Hello!"}]'
-                className="w-full h-40 px-3 py-2 border rounded bg-zinc-900 border-zinc-700 font-mono text-sm text-white placeholder-slate-500"
+                className="w-full h-40 px-3 py-2 border rounded bg-[var(--bg-secondary)] border-[var(--border-secondary)] font-mono text-sm text-[var(--text-primary)] placeholder-[var(--text-secondary)]"
               />
               <div className="flex justify-end gap-2">
                 <button
@@ -204,7 +204,7 @@ const ContextEditor = ({ editingContext, setEditingContext, onSave }) => {
                 </button>
                 <button
                   onClick={() => setJsonModalOpen(false)}
-                  className="btn-primary bg-zinc-600 hover:bg-zinc-500 text-white px-4 py-2 rounded-md"
+                  className="btn-primary bg-[var(--button-bg-primary)] hover:bg-[var(--button-hover-bg)] text-[var(--text-primary)] px-4 py-2 rounded-md"
                 >
                   Cancel
                 </button>

@@ -60,8 +60,8 @@ const sendToOpenRouter = async (prompt, model) => {
 
     return response.data.choices?.[0]?.message?.content || `${model} gave no response.`;
   } catch (error) {
-    console.error(`${model} (OpenRouter) error:`, error?.response?.data || error.message);
-    return `Error reaching ${model} via OpenRouter.`;
+   
+    throw new ApiError(400, `Error reaching ${model} via OpenRouter.`)
   }
 };
 export { sendToGemini, sendToOpenRouter };

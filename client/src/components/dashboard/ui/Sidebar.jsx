@@ -4,7 +4,7 @@ import { Plus, Bot, BookOpen, LogOut } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { BsRobot } from 'react-icons/bs';
-import { useClerk } from "@clerk/clerk-react";
+import { useClerk,SignedIn, UserButton } from "@clerk/clerk-react";
 
 const navItems = [
   { label: "Create Bot", icon: <Plus />, path: "/create-bot" },
@@ -17,6 +17,7 @@ export default function Sidebar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { signOut } = useClerk();
+
   const [isHovered, setIsHovered] = useState(false);
 
   const handleLogout = async () => {
@@ -45,6 +46,11 @@ export default function Sidebar() {
               <BsRobot />
             )}
           </h1>
+          <div>
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
+          </div>
 
           <nav className="flex flex-col gap-4 w-full px-2">
             {navItems.map((item, idx) =>

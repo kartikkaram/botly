@@ -134,7 +134,6 @@ export const addContext=AsyncHandler(async (req, res) => {
 }
 const{jsonContext}=data
 
-    const uploadedFilePath=req?.files?.file?.[0].path
 if(!jsonContext || jsonContext==""){
   throw new ApiError(404, " provide website context in json ")
 }

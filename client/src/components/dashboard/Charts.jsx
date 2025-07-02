@@ -43,79 +43,83 @@ const requestData = {
 
 
   return (
-    <section className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-      {/* Rating Breakdown */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="rounded-xl p-5 bg-gradient-to-br from-zinc-900/70 via-zinc-800 to-zinc-900 border border-zinc-700 shadow-lg backdrop-blur-md"
-      >
-        <div className="flex items-center gap-2 mb-4">
-          <BiBarChartAlt2 className="text-indigo-400" size={22} />
-          <h4 className="text-md font-semibold text-white tracking-tight">
-            Rating Breakdown
-          </h4>
-        </div>
-        <div className="h-64">
-          <Bar
-            data={ratingData}
-            options={{
-              maintainAspectRatio: false,
-              plugins: {
-                legend: { display: false },
-              },
-              scales: {
-                x: {
-                  ticks: { color: "#cbd5e1" },
-                  grid: { display: false },
-                },
-                y: {
-                  ticks: { color: "#cbd5e1" },
-                  grid: { color: "#334155" },
-                },
-              },
-            }}
-          />
-        </div>
-      </motion.div>
+  <section className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+  {/* Rating Breakdown */}
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5 }}
+    className="rounded-xl p-5 bg-gradient-to-br from-[var(--gradient-from)] via-[var(--gradient-via)] to-[var(--gradient-to)] border border-[var(--border-secondary)] shadow-lg hover:shadow-[0_4px_20px_var(--shadow-highlight)] backdrop-blur-md transition"
+  >
+    <div className="flex items-center gap-2 mb-4">
+      <BiBarChartAlt2 className="text-[var(--icon-highlight)]" size={22} />
+      <h4 className="text-md font-semibold text-[var(--text-primary)] tracking-tight">
+        Rating Breakdown
+      </h4>
+    </div>
+    <div className="h-64">
+      <Bar
+        data={ratingData}
+        options={{
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+          },
+          scales: {
+            x: {
+              // Keep chart text colors default
+              ticks: { color: "#cbd5e1" },
+              grid: { display: false },
+            },
+            y: {
+              ticks: { color: "#cbd5e1" },
+              grid: { color: "#334155" },
+            },
+          },
+        }}
+      />
+    </div>
+  </motion.div>
 
-      {/* Request Timeline */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="lg:col-span-2 rounded-xl p-5 bg-gradient-to-br from-zinc-900/70 via-zinc-800 to-zinc-900 border border-zinc-700 shadow-lg backdrop-blur-md"
-      >
-        <div className="flex items-center gap-2 mb-4">
-          <MdOutlineInsertChart className="text-indigo-400" size={22} />
-          <h4 className="text-md font-semibold text-white tracking-tight">
-            Requests Over Time
-          </h4>
-        </div>
-        <div className="h-64">
-          <Line
-            data={requestData}
-            options={{
-              maintainAspectRatio: false,
-              plugins: {
-                legend: { display: false },
-              },
-              scales: {
-                x: {
-                  ticks: { color: "#cbd5e1" },
-                  grid: { display: false },
-                },
-                y: {
-                  ticks: { color: "#cbd5e1" },
-                  grid: { color: "#334155" },
-                },
-              },
-            }}
-          />
-        </div>
-      </motion.div>
-    </section>
+  {/* Request Timeline */}
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.6 }}
+    className="lg:col-span-2 rounded-xl p-5 bg-gradient-to-br from-[var(--gradient-from)] via-[var(--gradient-via)] to-[var(--gradient-to)] border border-[var(--border-secondary)] shadow-lg hover:shadow-[0_4px_20px_var(--shadow-highlight)] backdrop-blur-md transition"
+  >
+    <div className="flex items-center gap-2 mb-4">
+      <MdOutlineInsertChart className="text-[var(--icon-highlight)]" size={22} />
+      <h4 className="text-md font-semibold text-[var(--text-primary)] tracking-tight">
+        Requests Over Time
+      </h4>
+    </div>
+    <div className="h-64">
+      <Line
+        data={requestData}
+        options={{
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+          },
+          scales: {
+            x: {
+              // Keep chart text colors default
+              ticks: { color: "#cbd5e1" },
+              grid: { display: false },
+            },
+            y: {
+              ticks: { color: "#cbd5e1" },
+              grid: { color: "#334155" },
+            },
+          },
+        }}
+      />
+    </div>
+  </motion.div>
+</section>
+
+
   );
 };
 

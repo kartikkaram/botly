@@ -49,7 +49,7 @@ export const calculateDistanceMatrix = (data) => {
 
 
 
-export const dbscan = (distanceMatrix, eps = 0.5, minPts = 2) => {
+export const dbscan = (distanceMatrix, eps = 0.3, minPts = 2) => {
   const n = distanceMatrix.length;
   const visited = new Array(n).fill(false);
   const clusters = [];
