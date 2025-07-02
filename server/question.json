@@ -1,32 +1,149 @@
 [
-  { "userMessage": "How can I return an item I purchased?" },
-  { "userMessage": "What is your shipping policy?" },
-  { "userMessage": "Can I track my package online?" },
-  { "userMessage": "Do you provide international shipping options?" },
-  { "userMessage": "Which payment methods are accepted?" },
-  { "userMessage": "How do I reach your customer support?" },
-  { "userMessage": "Is it possible to update my shipping address after ordering?" },
-  { "userMessage": "Can I get a refund for my purchase?" },
-  { "userMessage": "Do you sell gift cards?" },
-  { "userMessage": "What should I do if my order arrives damaged?" },
-  { "userMessage": "How do I send back a product I don’t want?" },
-  { "userMessage": "What’s the policy for free shipping?" },
-  { "userMessage": "Can I see where my package is in transit?" },
-  { "userMessage": "Do you ship to other countries?" },
-  { "userMessage": "What are the payment options?" },
-  { "userMessage": "How do I contact your helpdesk?" },
-  { "userMessage": "Can I change my delivery address after confirming the order?" },
-  { "userMessage": "How long does it take to get my money back if I cancel?" },
-  { "userMessage": "Are there gift vouchers available?" },
-  { "userMessage": "Who should I contact if something I ordered is broken?" },
-  { "userMessage": "What’s the weather like today?" },
-  { "userMessage": "Can you suggest a good book to read?" },
-  { "userMessage": "Do you have a favorite movie?" },
-  { "userMessage": "What is the square root of 256?" },
-  { "userMessage": "Can you recommend a good pizza place near me?" },
-  { "userMessage": "How do I send things back?" },
-  { "userMessage": "Where can I check my shipment status?" },
-  { "userMessage": "Does your website support international customers?" },
-  { "userMessage": "What’s the process for getting my money back?" },
-  { "userMessage": "Do you sell cards that can be gifted?" }
+  {
+    "userMessage": "What is a novel coronavirus?"
+  },
+  {
+    "userMessage": "Why is the disease being called coronavirus disease 2019, COVID-19?"
+  },
+  {
+    "userMessage": "How does the virus spread?"
+  },
+  {
+    "userMessage": "Can I get COVID-19 from food (including restaurant take-out, produce, refrigerated, or packaged food) or drinking water?"
+  },
+  {
+    "userMessage": "Will warm weather stop the outbreak of COVID-19?"
+  },
+  {
+    "userMessage": "What is community spread?"
+  },
+  {
+    "userMessage": "Can mosquitoes or ticks spread the virus that causes COVID-19?"
+  },
+  {
+    "userMessage": "How can I protect myself?"
+  },
+  {
+    "userMessage": "Does CDC recommend the use of masks to prevent COVID-19?"
+  },
+  {
+    "userMessage": "Is it safe to get care for my other medical conditions during this time?"
+  },
+  {
+    "userMessage": "Am I at risk for COVID-19 from mail, packages, or products?"
+  },
+  {
+    "userMessage": "Is it okay for me to donate blood?"
+  },
+  {
+    "userMessage": "Should contact lens wearers take special precautions to prevent COVID-19?"
+  },
+  {
+    "userMessage": "Is contact lens disinfecting solution effective against COVID-19?"
+  },
+  {
+    "userMessage": "Should I use soap and water or hand sanitizer to protect against COVID-19?"
+  },
+  {
+    "userMessage": "What cleaning products should I use to protect against COVID-19?"
+  },
+  {
+    "userMessage": "What should I do if I get sick or someone in my house gets sick?"
+  },
+  {
+    "userMessage": "What should I do if I have had close contact with someone who has COVID-19?"
+  },
+  {
+    "userMessage": "What is the risk of my child becoming sick with COVID-19?"
+  },
+  {
+    "userMessage": "How can I protect my child from COVID-19 infection?"
+  },
+  {
+    "userMessage": "Are the symptoms of COVID-19 different in children than in adults?"
+  },
+  {
+    "userMessage": "Should children wear masks?"
+  },
+  {
+    "userMessage": "How do I prepare my children in case of COVID-19 outbreak in our community?"
+  },
+  {
+    "userMessage": "What is multisystem inflammatory syndrome in children (MIS-C) and who is at risk?"
+  },
+  {
+    "userMessage": "Can my child hang out with their friends?"
+  },
+  {
+    "userMessage": "How can I help my child continue learning?"
+  },
+  {
+    "userMessage": "Will kids have access to school meals?"
+  },
+  {
+    "userMessage": "How can I keep my children healthy?"
+  },
+  {
+    "userMessage": "Limit time with older adults, including relatives, and people with chronic medical conditions."
+  },
+  {
+    "userMessage": "Is my child with an underlying medical condition at higher risk for severe illness from COVID-19?"
+  },
+  {
+    "userMessage": "What additional steps should families that have a child with an underlying medical condition take?"
+  },
+  {
+    "userMessage": "What can I do if my child has difficulties adjusting to new routines and following recommendations?"
+  },
+  {
+    "userMessage": "How can my family cope with the added stress?"
+  },
+  {
+    "userMessage": "What if my child or someone else in the home is sick with symptoms of COVID-19?"
+  },
+  {
+    "userMessage": "What if my child's symptoms of their underlying medical condition or complex, chronic medical condition get worse?"
+  },
+  {
+    "userMessage": "What if my child needs to go to the hospital?"
+  },
+  {
+    "userMessage": "How can I prepare for an outbreak in my area?"
+  },
+  {
+    "userMessage": "How can I prepare for COVID-19 at work?"
+  },
+  {
+    "userMessage": "Should I make my own hand sanitizer if I can't find it in the stores?"
+  },
+  {
+    "userMessage": "What are the symptoms and complications that COVID-19 can cause?"
+  },
+  {
+    "userMessage": "When should I seek emergency care if I have COVID-19?"
+  },
+  {
+    "userMessage": "Is it possible to have the flu and COVID-19 at the same time?"
+  },
+  {
+    "userMessage": "Should I be tested for a current infection?"
+  },
+  {
+    "userMessage": "How can I get tested for a current infection (viral test) and what does my test mean?"
+  },
+  {
+    "userMessage": "How can I get tested for a past infection (antibody test) and what does my test mean?"
+  },
+  {
+    "userMessage": "Can someone test negative and later test positive on a viral test for COVID-19?"
+  },
+  {
+    "userMessage": "Who is at higher risk for serious illness from COVID-19?"
+  },
+  {
+    "userMessage": "What should people at higher risk of serious illness with COVID-19 do?"
+  },
+  {
+    "userMessage": "Are people with disabilities at higher risk?"
+  }
 ]

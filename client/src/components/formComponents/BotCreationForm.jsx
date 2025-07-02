@@ -7,7 +7,7 @@ import FinishStep from './steps/FinishStep';
 import StepIndicator from './StepIndicator';
 import axios from 'axios';
 import { useEffect } from 'react';
-import { useUser } from '@clerk/clerk-react';
+import { useAuth, useUser } from '@clerk/clerk-react';
 import { Navigate } from 'react-router-dom';
 
 const BotCreationForm = () => {
@@ -15,6 +15,8 @@ const BotCreationForm = () => {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [apiKey, setApiKey] = useState('');
+  const { getToken } = useAuth();
+
  const [currentStep, setCurrentStep] = useState(() => {
   try {
     const storedStep = localStorage.getItem("currentStep");
@@ -173,13 +175,26 @@ const [validationErrors, setValidationErrors] = useState(() => {
   const handleSubmit = async () => {
     setIsSubmitting(true);
     setSubmitError('');
-    if(!data.current.get("data")){
-  data.current.append("data",  JSON.stringify(formData))
-    }
-  
+   
+data.current.delete("data");
+
+data.current.set("data", JSON.stringify(formData));
+  const token = await getToken();
     try {
-      const response = await axios.post('http://localhost:3001/frontend-api/botForm', data.current);
-      setApiKey(response.data.data || 'bot_key_' + Math.random().toString(36).substr(2, 9));
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/frontend-api/botForm`, data.current, {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+  withCredentials: true,
+});
+      if(!response.data.data){
+         setSubmitError(
+        'Failed to create bot. Please try again.'
+      );
+      setSubmitSuccess(false)
+      return
+    }
+    setApiKey(response.data.data)
       setSubmitSuccess(true);
     } catch (error) {
       console.error('Submission error:', error);

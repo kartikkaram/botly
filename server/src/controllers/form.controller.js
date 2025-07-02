@@ -8,14 +8,16 @@ import { ApiResponse } from "../utils/apiResponse.js";
 import { getEmbedding, initializeEmbedder } from "../utils/embeddings.js";
 import { apiKeyGenerator } from "../utils/apikeyGenerator.js";
 import { deleteFromTemp } from "../utils/deleteFromTemp.js";
+import { getAuth } from "@clerk/express";
 
 
 
 
 export const formController=AsyncHandler(async (req, res)=> {
+
+  const { userId:clerkId } = getAuth(req)
   let data
 if(typeof req.body.data=== "string"){
-  console.log("this ran")
    data = JSON.parse(req.body.data);
 }else{
   data=req.body.data
@@ -45,9 +47,6 @@ if (!data) {
 if((!jsonContext || jsonContext=='' ) &&  !uploadedFilePath  && !manualContext){
   throw new ApiError(404, "either provide website context in json or csv")
 }
-   const { userId:clerkId } = getAuth(req)
-  //const clerkId="user_2yRzzw626Vx3mbopwcEljvnG8ma"
-  // Validation: Ensure all required fields are present
   if (
     !botName ||
     !botType ||
@@ -147,7 +146,7 @@ else  if(uploadedFilePath){
   if(!newBot){
     throw new ApiError(401,"error while creating bot document")
   }
-  
+  console.log("done")
    return  res
       .status(201)
       .json(new ApiResponse(201, "Bot created successfully", newBot.apikey));

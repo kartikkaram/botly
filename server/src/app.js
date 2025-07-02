@@ -63,11 +63,14 @@ const botCorsOptions = {
 // }, 5 * 60 * 1000); // Every 5 minutes
 
 app.use("/frontend-api",
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,              
-  }),
+  cors({ origin: "http://localhost:5173", credentials: true }),
+  formRouter,
+  testRouter,
+  dashboardRouter,
+  botRouter
 );
+
+
 app.use("/bot-api",
   cors(botCorsOptions),
 );
@@ -76,10 +79,6 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"));
 app.use(cookieParser())
 app.use("/api/v1/clerk",clerkRouter)
-app.use("/frontend-api",formRouter)
-app.use("/frontend-api",testRouter)
-app.use("/frontend-api",dashboardRouter)
-app.use("/frontend-api",botRouter)
 app.use("/bot-api",botResponseRouter)
 
 app.use(Error_Handler)

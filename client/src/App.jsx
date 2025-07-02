@@ -9,17 +9,23 @@ import AllBotsPage from "./pages/AllBotsPage";
 import { useEffect } from 'react';
 import axios from 'axios'
 import { Routes, Route } from 'react-router-dom';
+import { useAuth } from '@clerk/clerk-react';
 
 
 function App() {
   const [selectedBot, setSelectedBot] = useState(null); // <-- Active bot
   const [bots,setBots] = useState(null);
-
+const { getToken } = useAuth();
 
   const fetchData=async () => {
     try {
-      const response=await axios.get(`${import.meta.env.VITE_BASE_URL}/frontend-api/getBot`);
-      console.log("response",response);
+      const token=await getToken()
+      const response=await axios.get(`${import.meta.env.VITE_BASE_URL}/frontend-api/getBot`,{
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+  withCredentials: true,
+});
       setBots(response.data.data);
     } catch (error) {
       console.log(error)
