@@ -3,10 +3,12 @@ import dotenv from 'dotenv';
 import { GoogleGenAI } from "@google/genai";
 import { ApiError } from "./apiError.js";
 dotenv.config({path:"src/.env"});
+import { Mistral } from '@mistralai/mistralai';
 
 // Replace these with your actual API keys
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
+const apiKey = process.env.MISTRAL_API_KEY;
 
 
 // === ROUTER FUNCTION ===
@@ -14,10 +16,12 @@ export const sendToLLM = async (prompt, model) => {
   switch (model.toLowerCase()) {
     case "gemini":
       return await sendToGemini(prompt);
-    case "deepseek/deepseek-r1-0528:free":
-      return await sendToOpenRouter(prompt,model);
-    case "grok":
-      return await sendToOpenRouter(prompt,model);
+    case "deepseek":
+      return await sendToOpenRouter(prompt,"deepseek/deepseek-r1:free");
+    // case "mistral":
+    //   return await sendToOpenRouter(prompt,"mistralai/mistral-nemo:free"); 
+    case "mistral":
+      return await sendToMistral(prompt); 
     default:
       throw new Error(`Unsupported model: ${model}`);
   }
@@ -64,5 +68,31 @@ const sendToOpenRouter = async (prompt, model) => {
     throw new ApiError(400, `Error reaching ${model} via OpenRouter.`)
   }
 };
+
+const sendToMistral = async (prompt)=>{
+
+
+  try{
+
+      
+    const client = new Mistral({apiKey: apiKey});
+
+    const chatResponse = await client.chat.complete({
+      model: 'open-mixtral-8x7b',
+      messages: [{role: 'user', content: prompt }],
+    });
+
+    return chatResponse.choices[0].message.content;
+
+  }catch(error){
+    console.error("Mistral error:", error?.response?.data || error.message);
+    throw new ApiError(404, "no response recieved from gemini")
+  }
+
+
+
+}
+
+
 export { sendToGemini, sendToOpenRouter };
 
