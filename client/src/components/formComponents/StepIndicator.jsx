@@ -24,8 +24,8 @@ const StepIndicator = ({ steps, currentStep }) => {
                       isCompleted
                         ? 'bg-green-500/20 border-green-500 text-green-300'
                         : isCurrent
-                        ? 'bg-indigo-500/30 border-indigo-400 text-indigo-300 shadow-xl'
-                        : 'bg-white/10 border-white/10 text-zinc-400'
+                        ? 'bg-blue-900/30 border-indigo-400 text-indigo-300 shadow-xl'
+                        : 'bg-zinc-700 border-white/10 text-zinc-400'
                     }`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}

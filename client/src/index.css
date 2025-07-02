@@ -20,14 +20,82 @@ body {
 
 @import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
 @tailwind utilities;
+
 
 /* ---------- CSS Vars (Optional, Safe) ---------- */
 @layer base {
   :root {
     --radius: 0.5rem;
+     /* Custom color variables */
+ /* --gradient-from: #18181b;
+  --gradient-via: #27272a;
+  --gradient-to: #18181b;
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #d4d4d8;
+  --icon-highlight: #6366f1; 
+  --text-danger: #f87171;
+  --button-bg-primary: #374151; 
+  --button-hover-bg: #4b5563;
+  --border-primary: #ffffff;
+  --border-secondary: rgba(255, 255, 255, 0.2);
+  --bg-primary: rgba(255, 255, 255, 0.1);
+  --bg-secondary: rgba(255, 255, 255, 0.05);
+  --hover-bg: #ffffff; 
+  --hover-text: #000000;
+  --hover-bg-alt: rgba(255, 255, 255, 0.1); 
+  --shadow-highlight: rgba(59, 130, 246, 0.2);  */
+  
+/* Form-specific variables */
+ /* Form-specific variables */
+
+/* Text Colors */
+--form-text-primary: #ffffff; /* Primary text - text-white */
+--form-text-secondary: #a1a1aa; /* Secondary text - text-zinc-400 */
+--form-text-tertiary: #d4d4d8; /* Tertiary text - text-zinc-300 */
+--form-text-quaternary: #e4e4e7; /* Quaternary text - text-zinc-200 */
+--form-text-danger: #ee4040; /* Error text - text-red-400 */
+
+
+/* Icon Colors */
+--form-icon-highlight: #0b305f; /* Icon highlight - text-indigo-400 */
+--form-icon-highlight-alt: #0b305f; /* Alternate icon highlight - text-blue-400 */
+--form-text-success: #05963d; /* Green for success - from-green-500 */
+--form-text-success-alt: #05963d; /* Darker green for hover - from-green-600 */
+
+
+/* Border Colors */
+--form-border-primary: rgba(255, 255, 255, 0.2); /* Primary border - border-white/20 */
+--form-border-hover: rgba(255, 255, 255, 0.3); /* Hover border - hover:border-white/30 */
+--form-border-highlight: rgba(96, 165, 250, 0.6); /* Highlighted border - border-blue-400/60 */
+
+/* Background Colors */
+--form-bg-primary: rgba(255, 255, 255, 0.05); /* Primary background - bg-white/10 */
+--form-bg-danger: rgba(35, 35, 35, 0.807); /* Error background - bg-white/10 */
+--form-bg-highlight: rgba(25, 26, 26, 0.856); /* Highlighted background - bg-blue-400/10 */
+--form-bg-danger-active: #dc2626; /* Active error background - hover:bg-red-600 */
+
+
+  --gradient-from: #0d0d0f;       /* Darkened from #18181b */
+--gradient-via: #1a1a1d;        /* Darkened from #27272a */
+--gradient-to: #0d0d0f;         /* Darkened from #18181b */
+--text-primary: #e0e0e0;         /* Slightly off-white */
+--text-secondary: #7a7a85;       /* Darkened from #a1a1aa */
+--text-tertiary: #a8a8b0;        /* Darkened from #d4d4d8 */
+--icon-highlight: #4f46e5;       /* Darkened indigo-500 instead of indigo-400 */
+--text-danger: #dc2626;          /* Darkened red-600 instead of red-400 */
+--button-bg-primary: #1f2937;     /* Darkened from zinc-800 to zinc-900 */
+--button-hover-bg: #374151;       /* Darkened from zinc-700 to zinc-800 */
+--border-primary: #d1d5db;        /* Light gray instead of pure white */
+--border-secondary: rgba(210, 210, 210, 0.15); /* Darkened opacity */
+--bg-primary: rgba(255, 255, 255, 0.05);       /* Reduced opacity */
+--bg-secondary: rgba(255, 255, 255, 0.02);     /* Reduced opacity */
+--hover-bg: #e5e7eb;             /* Light gray instead of pure white */
+--hover-text: #000000;           /* Kept black for contrast */
+--hover-bg-alt: rgba(255, 255, 255, 0.05);     /* Reduced opacity */
+--shadow-highlight: rgba(37, 99, 235, 0.15);    /* Darkened indigo-600/15 */
+
   }
 
   .dark {

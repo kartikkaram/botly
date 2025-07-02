@@ -7,6 +7,6 @@ const dashboardRouter=express.Router()
 dashboardRouter.get('/getDashboard',express.json({ limit: '16kb' }) ,getDashboard)
 dashboardRouter.post('/addRatings',express.json({ limit: '16kb' }) ,addRatings)
 dashboardRouter.get('/getRefinedDashboard',express.json({ limit: '16kb' }) ,refinedDashboard)
-dashboardRouter.get('/getMFAQs',express.json({ limit: '16kb' }) ,mostFrequentlyAskedQuestions)
+dashboardRouter.post('/getMFAQs',express.json({ limit: '16kb' }) ,mostFrequentlyAskedQuestions)
 
 export {dashboardRouter}

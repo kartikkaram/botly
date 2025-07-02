@@ -12,7 +12,7 @@ const Header = ({ setSelectedBot }) => {
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="px-4 sm:px-6 py-4 bg-gradient-to-r from-zinc-900 to-zinc-800 text-white rounded-xl shadow-md backdrop-blur-md w-full"
+      className="px-4 sm:px-6 py-4 bg-gradient-to-r from-[var(--gradient-from)] to-[var(--gradient-via)] text-[var(--text-primary)] rounded-xl shadow-md backdrop-blur-md w-full"
     >
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         {/* Left Side: Title + Go Back */}
@@ -24,7 +24,7 @@ const Header = ({ setSelectedBot }) => {
 
           <button
             onClick={() => setSelectedBot(null)}
-            className="flex items-center gap-1 px-3 py-1 text-sm bg-zinc-700 hover:bg-zinc-600 rounded-md transition duration-200"
+            className="flex items-center gap-1 px-3 py-1 text-sm bg-[var(--button-bg-primary)] hover:bg-[var(--button-hover-bg)] rounded-md transition duration-200"
           >
             <ArrowLeft size={16} />
             Go Back
@@ -32,9 +32,9 @@ const Header = ({ setSelectedBot }) => {
         </div>
 
         {/* Right Side: Welcome Message */}
-        <div className="text-sm text-gray-400 font-medium tracking-wide text-center sm:text-right">
+        <div className="text-sm text-[var(--text-secondary)] font-medium tracking-wide text-center sm:text-right">
           Welcome,{" "}
-          <span className="text-white font-semibold">
+          <span className="text-[var(--text-primary)] font-semibold">
             {user?.firstName || "User"}
           </span>{" "}
           👋
