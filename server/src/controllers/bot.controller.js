@@ -56,7 +56,7 @@ await initializeEmbedder();
   if(!prompt){
         throw new ApiError( 404,"topK were not created." );
   }
-  const reply = await sendToLLM(prompt,  bot.model); // or switch to Grok/DeepSeek based on bot.model
+  const reply = await sendToLLM(prompt,  bot.model); 
 if(!reply){
   throw new ApiError(401,"no response from the bot")
 }
@@ -179,8 +179,8 @@ const bot=await Bot.findOne({apikey})
 
 export const getBot=AsyncHandler(async (req, res)=> {
   
-    // const clerkId = req.auth?.userId;
-    const clerkId='user_2yRzzw626Vx3mbopwcEljvnG8ma'
+     const clerkId = req.auth?.userId;
+   // const clerkId='user_2yRzzw626Vx3mbopwcEljvnG8ma'
        if(!clerkId){
           throw new ApiError(400,"user has not signed in")
        }

@@ -45,8 +45,8 @@ if (!data) {
 if((!jsonContext || jsonContext=='' ) &&  !uploadedFilePath  && !manualContext){
   throw new ApiError(404, "either provide website context in json or csv")
 }
- //  const { userId:clerkId } = getAuth(req)
-  const clerkId="user_2yRzzw626Vx3mbopwcEljvnG8ma"
+   const { userId:clerkId } = getAuth(req)
+  //const clerkId="user_2yRzzw626Vx3mbopwcEljvnG8ma"
   // Validation: Ensure all required fields are present
   if (
     !botName ||

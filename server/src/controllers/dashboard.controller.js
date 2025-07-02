@@ -3,7 +3,7 @@ import { Dashboard } from "../models/dashboard.model.js";
 import { ApiError } from "../utils/apiError.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 import { AsyncHandler } from "../utils/asyncHandler.js";
-import { calculateDistanceMatrix, dbscan } from "../utils/vector-db.js";
+import { calculateDistanceMatrix, dbscan, estimateBestEps } from "../utils/vector-db.js";
 
 
 
@@ -153,8 +153,9 @@ export const mostFrequentlyAskedQuestions=AsyncHandler(async (req , res) => {
 
 const data =chats[0].combined
      const distanceMatrix = calculateDistanceMatrix(data);
-
-     const clusters = dbscan(distanceMatrix);
+     const eps=estimateBestEps(distanceMatrix)
+console.log(eps)
+     const clusters = dbscan(distanceMatrix,eps);
      const clusterResults = clusters.map((cluster) => {
   const questions = cluster.map((idx) => data[idx].content);
   return {
@@ -166,7 +167,7 @@ console.log(clusterResults)
 // Sort clusters by size and get the top 10-20
 const topClusters = clusterResults
   .sort((a, b) => b.count - a.count)
-  .slice(0, 2);
+  .slice(0, 10);
 
 
  return res

@@ -43,13 +43,60 @@ export const calculateDistanceMatrix = (data) => {
       }
     }
   }
+  
 
   return distanceMatrix;
+};
+export const estimateBestEps = (distanceMatrix, k = 1) => {
+  const n = distanceMatrix.length;
+
+  // Step 1: Get sorted k-distances
+  const kDistances = distanceMatrix.map((row, i) => {
+    const distances = [...row];
+    distances.splice(i, 1); // remove self-distance
+    distances.sort((a, b) => a - b);
+    return distances[k - 1];
+  }).sort((a, b) => a - b);
+
+  // Step 2: Define 2D points for elbow detection
+  const points = kDistances.map((val, i) => ({ x: i, y: val }));
+
+  // Line endpoints
+  const start = points[0];
+  const end = points[points.length - 1];
+
+  // Step 3: Find point with max distance to the line (curvature)
+  const getPerpendicularDistance = (point) => {
+    const numerator = Math.abs(
+      (end.y - start.y) * point.x -
+      (end.x - start.x) * point.y +
+      end.x * start.y -
+      end.y * start.x
+    );
+    const denominator = Math.sqrt(
+      (end.y - start.y) ** 2 + (end.x - start.x) ** 2
+    );
+    return numerator / denominator;
+  };
+
+  let maxDistance = -1;
+  let bestIndex = -1;
+
+  for (let i = 1; i < points.length - 1; i++) {
+    const dist = getPerpendicularDistance(points[i]);
+    if (dist > maxDistance) {
+      maxDistance = dist;
+      bestIndex = i;
+    }
+  }
+
+  return kDistances[bestIndex];
 };
 
 
 
-export const dbscan = (distanceMatrix, eps = 0.3, minPts = 2) => {
+
+export const dbscan = (distanceMatrix, eps, minPts = 2) => {
   const n = distanceMatrix.length;
   const visited = new Array(n).fill(false);
   const clusters = [];

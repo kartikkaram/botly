@@ -5,7 +5,7 @@ import { formController } from '../controllers/form.controller.js'
 const formRouter=express.Router()
 
 
-formRouter.post('/botForm',upload.fields([
+formRouter.post('/botForm',requireAuth(),upload.fields([
 {name:'file', maxCount:1 }
 ]),formController)
 
