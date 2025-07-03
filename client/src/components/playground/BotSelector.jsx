@@ -11,7 +11,7 @@ const BotSelector = ({ Bots, selectedBotId, handleBotSelect }) => (
         <option value="">Select API Key</option>
         {Bots.map((bot) => (
           <option key={bot._id} value={bot._id}>
-            {bot.botname} ({bot.apikey?.substring(0, 8)}...)
+            {bot.botname}
           </option>
         ))}
       </select>

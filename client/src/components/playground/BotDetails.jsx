@@ -19,13 +19,6 @@ const BotDetails = ({ selectedBot }) => {
         <h4 className="text-sm font-medium text-gray-300 mb-2">Language</h4>
         <p className="text-white">{selectedBot.language}</p>
       </div>
-
-      <div>
-        <h4 className="text-sm font-medium text-gray-300 mb-2">API Key</h4>
-        <code className="text-xs text-gray-300 bg-gray-800/50 px-2 py-1 rounded font-mono">
-          {selectedBot.apikey.substring(0, 8)}...{selectedBot.apikey.slice(-4)}
-        </code>
-      </div>
     </div>
   );
 };

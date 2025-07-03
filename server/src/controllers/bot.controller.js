@@ -11,6 +11,7 @@ import { apiKeyGenerator } from "../utils/apikeyGenerator.js";
 import { csvParser } from "../utils/csv-parser.js";
 import { deleteFromTemp } from "../utils/deleteFromTemp.js";
 import { User } from "../models/user.models.js";
+import { getAuth } from "@clerk/express";
 
 export const chatWithBot = AsyncHandler(async (req, res) => {
   const { apikey } = req.headers;
@@ -52,7 +53,7 @@ await initializeEmbedder();
   
   const prompt = `${bot.prompt}\n\nUse the following context to answer:\n${contextText}\n\nUser: ${userMessage}\n
   avoid replying to messages that are out of bot's capabilities or not matching to its target audience
-  Bot:`;
+  Bot :`;
   if(!prompt){
         throw new ApiError( 404,"topK were not created." );
   }
@@ -178,8 +179,11 @@ const bot=await Bot.findOne({apikey})
 })
 
 export const getBot=AsyncHandler(async (req, res)=> {
+
+
   
   const { userId:clerkId } = getAuth(req)
+
   
        if(!clerkId){
           throw new ApiError(400,"user has not signed in")

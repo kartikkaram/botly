@@ -1,6 +1,6 @@
 export function generatePromptForBot({
   bottype,
-  websitecontext,
+  description,
   targetaudience,
   responsestyle,
   capabilities,
@@ -12,6 +12,7 @@ export function generatePromptForBot({
 Target Audience: ${targetaudience}
 Capabilities: ${capabilities.join(", ")}
 `;
+ description: description
 
   if (restrictedtopics.length) {
     basePrompt += `Avoid discussing the following topics: ${restrictedtopics.join(", ")}.\n`;
@@ -36,4 +37,3 @@ Capabilities: ${capabilities.join(", ")}
 
   return basePrompt.trim();
 }
-// Website Context: ${websitecontext}

@@ -16,8 +16,7 @@ import PlaygroundPage from './pages/Playground';
 function App() {
   const [selectedBot, setSelectedBot] = useState(null); // <-- Active bot
   const [bots,setBots] = useState(null);
-const { getToken } = useAuth();
-
+const { getToken, isLoaded, isSignedIn } = useAuth();
   const fetchData=async () => {
     try {
       const token=await getToken()
@@ -34,9 +33,11 @@ const { getToken } = useAuth();
   }
 
 
-  useEffect(()=>{
-      fetchData()
-  },[])
+useEffect(() => {
+  if (isLoaded && isSignedIn) {
+    fetchData();
+  }
+}, [isLoaded, isSignedIn]);
 
   
 
