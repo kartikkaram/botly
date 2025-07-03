@@ -11,6 +11,7 @@ import axios from 'axios'
 import { Routes, Route } from 'react-router-dom';
 import { useAuth } from '@clerk/clerk-react';
 import PlaygroundPage from './pages/Playground';
+import DocumentationPage from './pages/DocsPage';
 
 
 function App() {
@@ -82,6 +83,14 @@ useEffect(() => {
           <>
             <Sidebar/>
             <PlaygroundPage Bots={bots}/>
+          </>
+        }
+      />
+      <Route
+        path="/docs/:slug"
+        element={
+          <>
+            <DocumentationPage/>
           </>
         }
       />

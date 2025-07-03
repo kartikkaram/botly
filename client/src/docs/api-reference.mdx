@@ -1,0 +1,72 @@
+import { Callout } from '../components/docs/Callout'
+import { Divider } from '../components/docs/Divider'
+import { CodeBlock } from '../components/docs/CodeBlock'
+
+# API Reference
+
+This guide explains how to integrate with Botly’s backend via direct API calls.
+
+<Divider />
+
+## 1. Endpoint
+
+Use the following endpoint to send messages:
+
+<CodeBlock language="http">
+POST https://api.botly.ai/message
+</CodeBlock>
+
+<Divider />
+
+## 2. Headers
+
+These headers must be included with each request:
+
+<CodeBlock language="json">
+{`{
+  "Authorization": "Bearer YOUR_API_KEY",
+  "Content-Type": "application/json"
+}`}
+</CodeBlock>
+
+<Divider />
+
+## 3. Sample Request Body
+
+The request body includes the message and an optional context:
+
+<CodeBlock language="json">
+{`{
+  "message": "Hello!",
+  "context": {}
+}`}
+</CodeBlock>
+
+<Divider />
+
+## 4. Sample Response
+
+A successful reply will return the following format:
+
+<CodeBlock language="json">
+{`{
+  "reply": "Hi! How can I assist you today?",
+  "status": "success"
+}`}
+</CodeBlock>
+
+<Divider />
+
+## 5. Error Handling
+
+| Code | Meaning                          |
+|------|----------------------------------|
+| 401  | Unauthorized – bad API key       |
+| 429  | Rate limited – too many requests |
+| 500  | Server error                     |
+
+<Callout type="tip" title="Best Practice">
+Always check the `status` field or HTTP status code before using the reply.
+</Callout>
+
+<Divider />

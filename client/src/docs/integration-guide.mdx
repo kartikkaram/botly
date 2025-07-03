@@ -1,0 +1,80 @@
+import { Callout } from '../components/docs/Callout'
+import { Divider } from '../components/docs/Divider'
+import { CodeBlock } from '../components/docs/CodeBlock'
+
+# Integration Guide
+
+There are two integration paths:
+
+1. Use the out-of-the-box React component  
+2. Connect manually with Botly’s API
+
+<Divider />
+
+## 1. React Component (Fastest Way)
+
+### Install the Package
+
+<CodeBlock language="bash">
+{`npm install botly-bot`}
+</CodeBlock>
+
+### Example Code
+
+<CodeBlock language="jsx">
+{`import './App.css';
+import BotlyBot from 'botly-bot';
+import 'botly-bot/dist/botly-bot.css';
+
+function App() {
+  return (
+    <BotlyBot 
+      apiKey={import.meta.env.VITE_BOT_API_KEY}
+      initialMessage="Hello! I'm CODExJATIN, your AI assistant. How can I help you today?"
+      title="CODExJATIN Assistant"
+    />
+  );
+}
+
+export default App;`}
+</CodeBlock>
+
+### Styling
+
+The BotlyBot component comes styled out of the box. To override the appearance:
+
+- Edit `botly-bot.css`
+- Or wrap `<BotlyBot />` in your layout and use your own styles
+
+<Callout type="info" title="Tip">
+You can also use Tailwind, Chakra UI, or any CSS-in-JS solution to customize the wrapper.
+</Callout>
+
+<Divider />
+
+## 2. Direct API Access (Custom UI)
+
+Use this method if you want to build your own chat UI.
+
+### Sample API Call
+
+<CodeBlock language="js">
+{`fetch('http://localhost:3001/bot-api/botResponse', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'apikey': 'YOUR_API_KEY'
+  },
+  body: JSON.stringify({
+    userMessage: "Hello, how are you?"
+  })
+})
+  .then(res => res.json())
+  .then(data => console.log(data))
+  .catch(err => console.error('Error:', err));`}
+</CodeBlock>
+
+
+Use this inside a handler or hook to dynamically call Botly.
+
+<Divider />

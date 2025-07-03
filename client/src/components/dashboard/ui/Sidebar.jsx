@@ -10,7 +10,7 @@ const navItems = [
   { label: "Create Bot", icon: <Plus />, path: "/create-bot" },
   { label: "All Bots", icon: <Bot />, path: "/bots" },
   { label:"Playground", icon:<FlaskConical/>, path:"/playground"},
-  { label: "Docs", icon: <BookOpen />, path: "/docs" },
+  { label: "Docs", icon: <BookOpen />, path: "/docs/get-started" },
   { label: "Logout", icon: <LogOut />, path: "/logout", isLogout: true },
 ];
 
