@@ -1,5 +1,5 @@
 {
-  "name": "botly-bot",
+  "name": "botly-bots",
   "private": false,
   "version": "1.0.0",
   "main": "dist/botly-bot.umd.js",

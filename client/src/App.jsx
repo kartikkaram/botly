@@ -12,6 +12,7 @@ import { Routes, Route } from 'react-router-dom';
 import { useAuth } from '@clerk/clerk-react';
 import PlaygroundPage from './pages/Playground';
 import DocumentationPage from './pages/DocsPage';
+import BotlyBot from 'botly-bot';
 
 
 function App() {
@@ -50,6 +51,8 @@ useEffect(() => {
 
 
   return (
+    <>
+    <BotlyBot/>
     <Routes>
       {/* No Sidebar */}
       <Route path="/" element={<Index />} />
@@ -95,6 +98,7 @@ useEffect(() => {
         }
       />
     </Routes>
+    </>
   );
 }
 
