@@ -5,5 +5,5 @@ A customizable, professional chatbot UI for React apps.
 ## Installation
 
 ```bash
-npm install botly-bot
+npm install botly-bots
 npm install axios react-icons

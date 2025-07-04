@@ -11,7 +11,6 @@ import RevokeKeyModal from "../components/dashboard/RevokeKeyModel";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
-import Botlycomponent from "../components/botlycomponentpreview/botlycomonent";
 
 const BotlyDashboard = ({ bot, setSelectedBot, onContextUpdate }) => {
   const [isApiVisible, setIsApiVisible] = useState(false);
@@ -119,7 +118,6 @@ const BotlyDashboard = ({ bot, setSelectedBot, onContextUpdate }) => {
       />
     )}
   </AnimatePresence>
-  <Botlycomponent />
 </div>
 
   );
