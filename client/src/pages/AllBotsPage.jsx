@@ -77,7 +77,7 @@ const AllBotsPage = ({ bots, onBotSelect }) => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="glass-card"
+          className="bg-[#0d0d0f]"
         >
           <BotCard bot={bot} onSelect={onBotSelect} />
         </motion.div>

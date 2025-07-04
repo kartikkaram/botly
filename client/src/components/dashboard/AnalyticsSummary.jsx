@@ -104,7 +104,7 @@ const AnalyticsSummary = ({ analytics }) => {
         {label}
       </h3>
       <p
-        className="text-3xl font-bold"
+        className="text-2xl "
         style={{ color: 'var(--text-primary)' }}
       >
         {value}

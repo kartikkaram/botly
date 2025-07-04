@@ -40,11 +40,6 @@ const BotCard = ({ bot, onSelect }) => {
           <MdOutlineDescription size={18} className="mt-0.5 text-gray-400" />
           <p className="line-clamp-3 text-white/80">{bot.description}</p>
         </div>
-
-        <div className="flex items-center gap-2 text-xs mt-2 font-mono bg-white/10 px-3 py-2 rounded-md text-white truncate">
-          <MdOutlineKey size={14} className="text-white/40" />
-          <span className="truncate">{bot.apikey}</span>
-        </div>
       </div>
 
       {/* Footer */}

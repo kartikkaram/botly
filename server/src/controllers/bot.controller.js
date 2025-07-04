@@ -186,19 +186,21 @@ export const getBot=AsyncHandler(async (req, res)=> {
 
   
        if(!clerkId){
-          throw new ApiError(400,"user has not signed in")
+          throw new ApiError(401,"user has not signed in")
        }
   
       const self= await User.findOne({clerkid:clerkId})
   
       if(!self){
-          throw new ApiError(400,"user not found")
+          throw new ApiError(404,"user not found")
       }
 
       const bot =await Bot.find({ownerid:self._id}).lean()
 
      if(bot.length==0){
-    throw new ApiError(400,"bot not found")
+    return res
+    .status(200)
+    .json(new ApiResponse(200, "no bots found", {}))
   }
 const bots=bot.map((bot) => {
   return {...bot, websitecontext:bot.websitecontext.map((context) => {

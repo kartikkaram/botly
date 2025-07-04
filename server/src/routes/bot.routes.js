@@ -7,7 +7,7 @@ import { requireAuth } from '@clerk/express'
 const botRouter=express.Router()
 
 
-botRouter.get('/revoke',express.json({ limit: '16kb' }) ,renewBotApiKey)
+botRouter.post('/revoke',express.json({ limit: '16kb' }) ,renewBotApiKey)
 botRouter.post('/updateBot',express.json({ limit: '16kb' }) ,updateBot)
 botRouter.get('/getBot',requireAuth() ,getBot)
 

@@ -1,4 +1,5 @@
-import BotlyBot from 'botly-bot';
+import BotlyBot from "./BotlyBot"
+
 
 function App() {
 

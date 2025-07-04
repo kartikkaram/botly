@@ -79,63 +79,8 @@ const ContextEditor = ({ editingContext, setEditingContext, onSave }) => {
       <h2 className="text-xl font-bold flex items-center gap-2 mb-6 text-indigo-300">
         <FileText size={20} /> Bot Context Manager
       </h2>
-
-      {editingContext.length === 0 && (
-        <p className="text-sm text-[var(--text-secondary)] italic mb-4">
-          No context entries yet. Use the buttons below to add some.
-        </p>
-      )}
-
-      {editingContext.map((ctx, idx) => (
-        <div
-          key={idx}
-          className="flex gap-3 mb-5 items-start bg-[var(--bg-primary)] p-3 rounded-lg border border-[var(--border-secondary)] shadow-inner"
-        >
-          <div className="flex-1 space-y-2">
-            <div className="flex items-center gap-2">
-              <MessageCircle size={16} className="text-indigo-400" />
-              <input
-                value={ctx.input}
-                onChange={(e) => {
-                  const updated = [...editingContext];
-                  updated[idx].input = e.target.value;
-                  setEditingContext(updated);
-                }}
-                placeholder="User says..."
-                className="w-full px-3 py-2 rounded bg-[var(--bg-secondary)] border border-[var(--border-secondary)] text-sm text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:ring-2 focus:ring-indigo-500 outline-none"
-              />
-            </div>
-            <textarea
-              value={ctx.output}
-              onChange={(e) => {
-                const updated = [...editingContext];
-                updated[idx].output = e.target.value;
-                setEditingContext(updated);
-              }}
-              placeholder="Bot responds..."
-              rows={3}
-              className="w-full px-3 py-2 rounded bg-[var(--bg-secondary)] border border-[var(--border-secondary)] text-sm text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:ring-2 focus:ring-indigo-500 outline-none resize-none"
-            />
-          </div>
-          <button
-            onClick={() => handleRemoveContext(idx)}
-            className="text-red-500 hover:text-red-600 mt-1 p-1"
-            title="Delete this context"
-          >
-            <Trash2 size={20} />
-          </button>
-        </div>
-      ))}
-
       {/* Controls */}
       <div className="flex flex-wrap gap-3 mt-6">
-        <button
-          onClick={handleAddContext}
-          className="btn-primary bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-md flex items-center gap-2"
-        >
-          <Plus size={16} /> Add Context
-        </button>
-
         <button
           onClick={() => fileInputRef.current.click()}
           className="btn-primary bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md flex items-center gap-2"

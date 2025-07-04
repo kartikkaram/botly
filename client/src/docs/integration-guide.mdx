@@ -58,23 +58,12 @@ Use this method if you want to build your own chat UI.
 
 ### Sample API Call
 
-<CodeBlock language="js">
-{`fetch('http://localhost:3001/bot-api/botResponse', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'apikey': 'YOUR_API_KEY'
-  },
-  body: JSON.stringify({
-    userMessage: "Hello, how are you?"
-  })
-})
-  .then(res => res.json())
-  .then(data => console.log(data))
-  .catch(err => console.error('Error:', err));`}
+<CodeBlock language="bash">
+{`npm install botlyapi`}
 </CodeBlock>
-
-
+<CodeBlock language="js">
+Botly(userMessage, YOUR_API_KEY)
+</CodeBlock>
 Use this inside a handler or hook to dynamically call Botly.
 
 <Divider />
