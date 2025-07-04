@@ -86,7 +86,7 @@ const fetchFAQs = async () => {
     try {
     //   console.log("API:",selectedBot);
       const response = await axios.post(
-        'http://localhost:3001/bot-api/botResponse',
+        `${import.meta.env.VITE_BASE_URL}/bot-api/botResponse`,
         { userMessage: inputMessage },
         { headers: { apikey: selectedBot.apikey } }
       );

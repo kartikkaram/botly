@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Header from '../components/playground/Header';
 import BotSelector from '../components/playground/BotSelector';
 import ChatSection from '../components/playground/ChatSection';
@@ -22,8 +22,18 @@ function PlaygroundPage({ Bots }) {
   }
 
   useEffect(() => {
-    if (Bots) setLoading(false);
+    if (Bots) {
+      setLoading(false);
+      return; // exit early if Bots is available
+    }
+
+    const timeoutId = setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timeoutId); // cleanup on Bots change
   }, [Bots]);
+
 
   const handleBotSelect = (botId) => {
     setSelectedBotId(botId);
@@ -53,6 +63,16 @@ function PlaygroundPage({ Bots }) {
     );
     }
 
+    if(!Bots) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-black text-white">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-4">No Bots Available</h2>
+          <p className="text-gray-400">Please create a bot to start using the playground.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-black text-white lg:pl-20 pb-20">
