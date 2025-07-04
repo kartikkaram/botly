@@ -52,7 +52,30 @@ You can also use Tailwind, Chakra UI, or any CSS-in-JS solution to customize the
 
 <Divider />
 
-## 2. Direct API Access (Custom UI)
+## 2. Using Botly's function (botlyapi package)
+
+Use this method if you want to make API calls from you NodeJS application directly using Botly's in built function.
+
+### Install the Package
+
+<CodeBlock language="bash">
+{`npm install botlyapi`}
+</CodeBlock>
+
+### Sample API Call
+
+<CodeBlock language="js">
+{`  Botly("USER INPUT", "YOUR_BOTLY_API_KEY")
+    .then(response => {
+      console.log("Botly response:", response);
+    })
+    .catch(error => {
+      console.error("Error calling Botly:", error);
+    });`}
+</CodeBlock>
+
+
+## 3. Direct API Access (Custom UI)
 
 Use this method if you want to build your own chat UI.
 
