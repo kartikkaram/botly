@@ -6,12 +6,20 @@ import { motion } from "framer-motion";
 import "./chartSetup";
 
 const Charts = ({ analytics }) => {
+
+  if (!analytics) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <p className="text-white">Analytics is not available. Please make sure the bot has been used.</p>
+      </div>
+    );
+  }
   const ratingData = {
-    labels: Object.keys(analytics.ratingBreakdown).map((r) => `${r}⭐`),
+    labels: Object.keys(analytics?.ratingBreakdown).map((r) => `${r}⭐`),
     datasets: [
       {
         label: "Ratings",
-        data: Object.values(analytics.ratingBreakdown),
+        data: Object.values(analytics?.ratingBreakdown),
         backgroundColor: "#6366f1", // Indigo-500
         borderRadius: 6,
         barThickness: 30,
@@ -20,7 +28,7 @@ const Charts = ({ analytics }) => {
   };
 
 // Group request counts by date
-const groupedRequests = analytics.requesttimestamps.reduce((acc, timestamp) => {
+const groupedRequests = analytics?.requesttimestamps.reduce((acc, timestamp) => {
   const date = new Date(timestamp).toLocaleDateString();
   acc[date] = (acc[date] || 0) + 1;
   return acc;

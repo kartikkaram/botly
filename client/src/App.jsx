@@ -20,7 +20,7 @@ function App() {
   const [selectedBot, setSelectedBot] = useState(null); // <-- Active bot
   const [bots,setBots] = useState(null);
 const { getToken, isLoaded, isSignedIn } = useAuth();
-const { user } = useUser();
+// const { user } = useUser();
 
 // useEffect(() => {
 //   Botly("USER INPUT", "YOUR_BOTLY_API_KEY")
@@ -42,11 +42,11 @@ const { user } = useUser();
     try {
       const token=await getToken()
       const response=await axios.get(`${import.meta.env.VITE_BASE_URL}/frontend-api/getBot`,{
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-  withCredentials: true,
-});
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      });
       setBots(response.data.data);
     } catch (error) {
       console.log(error)

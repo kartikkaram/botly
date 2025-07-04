@@ -11,12 +11,14 @@ import RevokeKeyModal from "../components/dashboard/RevokeKeyModel";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
+import FaqCard from "../components/playground/FaqCard";
 
 const BotlyDashboard = ({ bot, setSelectedBot, onContextUpdate }) => {
   const [isApiVisible, setIsApiVisible] = useState(false);
   const [revokeDialogOpen, setRevokeDialogOpen] = useState(false);
-  const [newApiKey, setNewApiKey] = useState("");
+  const [currentApiKey, setCurrentApiKey] = useState(bot.apikey || "");
   const [editingContext, setEditingContext] = useState(bot.websitecontext || []);
+  const [faqs, setFAQs] = useState([]);
   const [analytics,setAnalytics] = useState(sampleAnalytics);
    const { isSignedIn, isLoaded } = useUser();
 
@@ -33,11 +35,42 @@ const BotlyDashboard = ({ bot, setSelectedBot, onContextUpdate }) => {
     return <Navigate to="/" replace />;
   }
 
-  const handleRevokeKey = () => {
-    const nk = `sk-${Math.random().toString(36).slice(-16)}`;
-    setNewApiKey(nk);
-    setRevokeDialogOpen(true);
+  const handleRevokeKey = async () => {
+
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/frontend-api/revoke`, {
+        oldApiKey: currentApiKey
+    })
+    .then((res) => {
+      console.log("API Key revoked successfully:", res.data);
+      setCurrentApiKey(res.data.data);
+      setRevokeDialogOpen(true);
+    }).catch((error) => {
+      console.error("Error revoking API Key:", error);
+    });
   };
+
+  const getMFAQS = async () => {
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/frontend-api/getMFAQs`,{} ,{
+        headers: {  
+          apikey: bot?.apikey
+        }
+      });
+      console.log("Fetched FAQs:", response.data);   
+      setFAQs(response.data.data);   
+    } catch (error) {
+      console.error("Error fetching FAQs:", error); 
+    } 
+  };
+
+  useEffect(() => {
+    if (bot) {  
+      console.log("Fetching FAQs for bot:", bot.botname);
+      getMFAQS();
+    }
+  }, [bot]);
+    
+
 
   const copyToClipboard = async (text) => {
     await navigator.clipboard.writeText(text);
@@ -88,7 +121,7 @@ const BotlyDashboard = ({ bot, setSelectedBot, onContextUpdate }) => {
   <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
     <BotInfo bot={bot} />
     <ApiKeyCard
-      apikey={bot.apikey}
+      apikey={currentApiKey}
       isVisible={isApiVisible}
       setIsVisible={setIsApiVisible}
       onRevoke={handleRevokeKey}
@@ -101,6 +134,9 @@ const BotlyDashboard = ({ bot, setSelectedBot, onContextUpdate }) => {
   {/* Charts */}
   <Charts analytics={analytics} />
 
+  {/* FAQs Section */}
+  <FaqCard data={faqs} />
+
   {/* Context Editor */}
   <ContextEditor
     editingContext={editingContext}
@@ -112,7 +148,7 @@ const BotlyDashboard = ({ bot, setSelectedBot, onContextUpdate }) => {
   <AnimatePresence>
     {revokeDialogOpen && (
       <RevokeKeyModal
-        apiKey={newApiKey}
+        apiKey={currentApiKey}
         onClose={() => setRevokeDialogOpen(false)}
         onCopy={copyToClipboard}
       />
