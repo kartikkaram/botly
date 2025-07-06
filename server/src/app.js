@@ -71,7 +71,7 @@ app.use(express.static("public"));
 app.use(cookieParser())
 
 app.use("/frontend-api",
-  cors({ origin: "http://localhost:5173", credentials: true }),
+  cors({ origin: process.env.CORS_ORIGIN, credentials: true }),
   formRouter,
   testRouter,
   dashboardRouter,
