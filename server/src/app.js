@@ -11,6 +11,12 @@ import { testRouter } from './routes/test.routes.js';
 import { dashboardRouter } from './routes/dashboard.routes.js';
 import { botRouter } from './routes/bot.routes.js';
 
+import dotenv from "dotenv"
+
+dotenv.config({
+  path:"src/.env"
+})
+
 const app = express();
 let validDomains = new Set();
 
