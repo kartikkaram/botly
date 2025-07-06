@@ -51,7 +51,7 @@ export default function BotlyBot({
     let formatted = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     formatted = formatted.replace(/(?:^|\n)[\*\-]\s(.+)/g, '<li>$1</li>');
     if (formatted.includes('<li>')) {
-      formatted = `<ul class="list-disc pl-5 space-y-1">${formatted}</ul>`;
+      formatted = `<ul className="list-disc pl-5 space-y-1">${formatted}</ul>`;
     }
     formatted = formatted.replace(/\n(?!<\/li>)/g, '<br />');
     return formatted;

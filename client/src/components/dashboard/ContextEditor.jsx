@@ -8,66 +8,104 @@ import {
   X,
   FileText,
   MessageCircle,
+  FileTextIcon,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import axios from 'axios'
 
-const ContextEditor = ({ editingContext, setEditingContext, onSave }) => {
+const ContextEditor = ({ apikey }) => {
   const fileInputRef = useRef();
   const [jsonModalOpen, setJsonModalOpen] = useState(false);
   const [rawJson, setRawJson] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
 
-  const handleAddContext = () => {
-    setEditingContext([...editingContext, { input: "", output: "" }]);
-  };
+  
 
-  const handleRemoveContext = (index) => {
-    setEditingContext(editingContext.filter((_, i) => i !== index));
-  };
 
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+const handleFileParsing = (file) => {
+  return new Promise((resolve, reject) => {
+    if (!file) return reject(new Error("No file provided"));
+
+    if (!file.name.endsWith(".csv")) {
+      return reject(new Error("Only .csv files are allowed"));
+    }
 
     const reader = new FileReader();
+
     reader.onload = (event) => {
       try {
-        let newEntries = [];
-        if (file.name.endsWith(".json")) {
-          newEntries = JSON.parse(event.target.result);
-        } else if (file.name.endsWith(".csv")) {
-          const lines = event.target.result.split("\n");
-          newEntries = lines
-            .map((line) => {
-              const [input, output] = line.split(",");
-              return input && output ? { input: input.trim(), output: output.trim() } : null;
-            })
-            .filter(Boolean);
-        } else {
-          alert("Only .json or .csv files are supported.");
-          return;
-        }
+        const lines = event.target.result.split("\n");
+        const newEntries = lines
+          .map((line) => {
+            const [input, output] = line.split(",");
+            return input && output
+              ? { input: input.trim(), output: output.trim() }
+              : null;
+          })
+          .filter(Boolean);
 
-        if (!Array.isArray(newEntries)) throw new Error("Expected an array");
-        setEditingContext([...editingContext, ...newEntries]);
+        resolve(newEntries);
       } catch (err) {
-        alert("Error parsing file: " + err.message);
+        reject(err);
       }
     };
 
-    reader.readAsText(file);
-  };
+    reader.onerror = () => {
+      reject(new Error("Error reading file"));
+    };
 
-  const handlePasteJson = () => {
-    try {
-      const parsed = JSON.parse(rawJson);
-      if (!Array.isArray(parsed)) throw new Error("Pasted JSON must be an array of { input, output }");
-      setEditingContext([...editingContext, ...parsed]);
-      setRawJson("");
-      setJsonModalOpen(false);
-    } catch (err) {
-      alert("Invalid JSON: " + err.message);
-    }
-  };
+    reader.readAsText(file);
+  });
+};
+  const uploadFile=async () => {
+       try {
+        let parsedData
+        if(selectedFile){
+          parsedData=await handleFileParsing(selectedFile)
+        } 
+          const response=await  axios.post(`${import.meta.env.VITE_BASE_URL}/frontend-api/addContext`,parsedData,{
+            headers:{
+              apikey:apikey
+            }
+           })
+           if(!response){
+            alert("something went wrong while uploading file")
+            alert("context added")
+           }
+            } catch (error) {
+              console.log("something went wrong",error)
+            }
+  }
+  const uploadJson=async () => {
+       try {
+         let parsedData= handlePasteJson()
+          const response=await  axios.post(`${import.meta.env.VITE_BASE_URL}/frontend-api/addContext`,parsedData,{
+            headers:{
+              apikey:apikey
+            }
+           })
+           if(!response){
+            alert("something went wrong while uploading file")
+          }
+          alert("context added")
+            } catch (error) {
+              console.log("something went wrong",error)
+            }
+  }
+
+
+const handlePasteJson = () => {
+  try {
+    const parsed = JSON.parse(rawJson);
+    if (!Array.isArray(parsed)) throw new Error("Expected an array");
+    return parsed;
+  } catch (err) {
+    alert("Invalid JSON: " + err.message);
+    return null;
+  }
+};
+
+
 
   return (
    <motion.section
@@ -81,33 +119,52 @@ const ContextEditor = ({ editingContext, setEditingContext, onSave }) => {
       </h2>
       {/* Controls */}
       <div className="flex flex-wrap gap-3 mt-6">
+        <div className="flex flex-col gap-2">
+
         <button
           onClick={() => fileInputRef.current.click()}
           className="btn-primary bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md flex items-center gap-2"
         >
-          <UploadCloud size={16} /> Upload File
+          <UploadCloud size={16} /> Select File
         </button>
         <input
           type="file"
-          accept=".json,.csv"
+          accept=".csv"
           ref={fileInputRef}
-          onChange={handleFileUpload}
           className="hidden"
+          onChange={(e)=>setSelectedFile(e.target.files[0])}
         />
+{selectedFile && (
+  <div className="mt-2 flex items-center gap-2 text-sm text-green-700">
+    <FileTextIcon size={16} />
+    {selectedFile.name}
+    <button
+      onClick={() => {
+        setSelectedFile(null);
+        fileInputRef.current.value = ""; // clear the input
+      }}
+      className="text-red-500 hover:text-red-700 text-xs ml-2"
+    >
+      <X size={14} />
+    </button>
+  </div>
+)}
+        </div>
 
         <button
+          onClick={uploadFile}
+          className="btn-primary bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md flex items-center gap-2"
+        >
+          <Save size={16} /> Upload File
+        </button>
+        <button
           onClick={() => setJsonModalOpen(true)}
+          disabled={selectedFile}
           className="btn-primary bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-md flex items-center gap-2"
         >
           <ClipboardPaste size={16} /> Paste JSON
         </button>
 
-        <button
-          onClick={onSave}
-          className="btn-primary bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md flex items-center gap-2"
-        >
-          <Save size={16} /> Save Changes
-        </button>
       </div>
 
       {/* Paste Modal */}
@@ -142,7 +199,7 @@ const ContextEditor = ({ editingContext, setEditingContext, onSave }) => {
               />
               <div className="flex justify-end gap-2">
                 <button
-                  onClick={handlePasteJson}
+                  onClick={uploadJson}
                   className="btn-primary bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md"
                 >
                   Import

@@ -53,7 +53,7 @@ await initializeEmbedder();
   
   const prompt = `${bot.prompt}\n\nUse the following context to answer:\n${contextText}\n\nUser: ${userMessage}\n
   avoid replying to messages that are out of bot's capabilities or not matching to its target audience
-  Bot :`;
+  Bot and you can generalize a bit:`;
   if(!prompt){
         throw new ApiError( 404,"topK were not created." );
   }
@@ -129,13 +129,14 @@ export const addContext=AsyncHandler(async (req, res) => {
   if (!apikey) {
     throw new ApiError(400,"API key is required");
   }
-  data=req.body.data
-  if (!data) {
-  throw new ApiError(400, "Missing 'data' field in request body");
-}
-const{jsonContext}=data
+  
+ 
 
-if(!jsonContext || jsonContext==""){
+const parsedContext=req.body
+
+
+
+if(!parsedContext || parsedContext==""){
   throw new ApiError(404, " provide website context in json ")
 }
 
@@ -143,35 +144,28 @@ const bot=await Bot.findOne({apikey})
   if(!bot){
     throw new ApiError(400,"bot not found")
   }
-  let parsedContext;
-    if(jsonContext){
-      try {
-        parsedContext = typeof jsonContext === "string"
-        ? JSON.parse(jsonContext)
-        : jsonContext;
-      } catch (err) {
-        throw new ApiError(400, "Invalid website context format");
-      }
-    }
-    // Generate embeddings for each context item and enrich it
-    await initializeEmbedder();
-    const enrichedContext = await Promise.all(
-      parsedContext.map(async (entry) => {
-        const embedding = await getEmbedding(entry.input);
-        return {
-          input: entry.input,
-          output: entry.output,
-          embedding,
-        };
-      })
-    );
-    if(!enrichedContext){
-      throw new ApiError(400, "error while creating embeddings")
-    }
   
-    bot.websitecontext.push(enrichedContext)
-
-    await bot.save()
+ 
+  
+  // Generate embeddings for each context item and enrich it
+  await initializeEmbedder();
+  const enrichedContext = await Promise.all(
+    parsedContext.map(async (entry) => {
+      const embedding = await getEmbedding(entry.input);
+      return {
+        input: entry.input,
+        output: entry.output,
+        embedding,
+      };
+    })
+  );
+  if(!enrichedContext){
+    throw new ApiError(400, "error while creating embeddings")
+  }
+  
+  bot.websitecontext.push(...enrichedContext)
+  
+  const savedBot = await bot.save();
 
     return res
     .status(200)

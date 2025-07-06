@@ -163,7 +163,7 @@ console.log(eps)
     count: questions.length, // Number of questions in the cluster
   };
 });
-console.log(clusterResults)
+
 // Sort clusters by size and get the top 10-20
 const topClusters = clusterResults
   .sort((a, b) => b.count - a.count)

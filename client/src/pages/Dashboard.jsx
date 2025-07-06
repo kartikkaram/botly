@@ -142,6 +142,7 @@ const BotlyDashboard = ({ bot, setSelectedBot, onContextUpdate }) => {
     editingContext={editingContext}
     setEditingContext={setEditingContext}
     onSave={saveContext}
+    apikey={bot.apikey}
   />
 
   {/* API Key Revocation Modal */}
