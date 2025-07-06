@@ -22,10 +22,12 @@ jobs:
 
     - name: Deploy to EC2 and Restart Server
       run: |
-        ssh -i ~/.ssh/id_rsa ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+        ssh -vvv -i ~/.ssh/id_rsa ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+          echo "SSH Connected"
           cd ~/botly-backend-workingrepo
           git pull origin main
           cd server
           npm install
           pm2 restart botly-server
         EOF
+
