@@ -1,7 +1,7 @@
 {
   "name": "botly-bots",
   "private": false,
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "dist/botly-bot.umd.js",
   "module": "dist/botly-bot.es.js",
   "style": "dist/botly-bot.css",

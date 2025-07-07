@@ -1,32 +1,19 @@
-<<<<<<< HEAD
 import BotlyBot from "./BotlyBot"
 
-=======
-import BotlyBot from './BotlyBot'
->>>>>>> 372f9e2e10cc9a022d4b2114104ecccd11734a64
 
 function App() {
   return (
     <>
-      <div
-        className="flex items-center justify-center min-h-screen bg-gray-100"
-        onClick={() => console.log('Background clicked!')}
-      >
-        <h1 className="text-2xl font-bold text-gray-800">
-          Welcome to Botly Assistant
-        </h1>
-      </div>
 
-      <div className="fixed bottom-6 right-6 z-50 font-sans">
-        <button
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition"
-          onClick={() => document.querySelector('botly-bot')?.toggle()}
-        >
-          Open Botly Assistant
-        </button>
-      </div>
+      <BotlyBot
+        apikey={import.meta.env.VITE_BOTLY_API_KEY}
+        primaryColor="#1d4ed8"
+        secondaryColor="#f8fafc"
+        title="Botly Assistant"
+        initialMessage="Welcome! How can I help you today?"
+        botAvatar={null}
+      />
 
-      <BotlyBot />
     </>
   );
 }

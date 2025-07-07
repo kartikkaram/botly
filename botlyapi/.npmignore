@@ -1,0 +1,18 @@
+# Ignore dev dependencies
+node_modules/
+.env
+.env.*  
+.vscode/
+test.js
+*.log
+
+# Git and OS files
+.git/
+.DS_Store
+Thumbs.db
+
+# Build tools or configs (not used, but safe to ignore)
+rollup.config.js
+webpack.config.js
+tsconfig.json
+babel.config.js

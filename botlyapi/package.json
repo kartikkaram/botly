@@ -1,13 +1,30 @@
 {
   "name": "botlyapi",
-  "version": "1.0.0",
-  "description": "makes api call to botly",
+  "version": "1.0.1",
+  "description": "Official Node.js SDK to interact with the Botly AI chatbot API.",
   "main": "index.js",
+  "keywords": [
+    "botly",
+    "chatbot",
+    "api",
+    "nodejs",
+    "ai",
+    "sdk",
+    "assistant"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Jatin & Kartik",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CODExJATIN/botly-backend-workingrepo"
+  },
+  "bugs": {
+    "url": "https://github.com/CODExJATIN/botly-backend-workingrepo/issues"
+  },
+  "homepage": "https://github.com/CODExJATIN/botly-backend-workingrepo#readme",
   "dependencies": {
     "axios": "^1.10.0"
   }

@@ -27,7 +27,7 @@ export default function BotlyBot({
 
     try {
       const response = await axios.post(
-        'http://localhost:3001/bot-api/botResponse',
+        `${import.meta.env.VITE_API_URL}/bot-api/botResponse`,
         { userMessage: input },
         { headers: { apikey } }
       );
