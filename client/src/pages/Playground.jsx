@@ -13,15 +13,8 @@ function PlaygroundPage({ Bots }) {
   const [isTyping, setIsTyping] = useState(false);
   const [activeTab, setActiveTab] = useState('chat');
   const [loading, setLoading] = useState(true);
-  if(!Bots || Bots.length==0){
-    return(
-      <>
-      <h1 className='flex h-screen w-screen justify-center items-center bg-black text-4xl text-white '>please create a bot first</h1>
-      </>
-    )
-  }
 
-  useEffect(() => {
+    useEffect(() => {
     if (Bots) {
       setLoading(false);
       return; // exit early if Bots is available
@@ -33,6 +26,15 @@ function PlaygroundPage({ Bots }) {
 
     return () => clearTimeout(timeoutId); // cleanup on Bots change
   }, [Bots]);
+
+  
+  if(!Bots || Bots.length==0){
+    return(
+      <>
+      <h1 className='flex h-screen w-screen justify-center items-center bg-black text-4xl text-white '>please create a bot first</h1>
+      </>
+    )
+  }
 
 
   const handleBotSelect = (botId) => {
