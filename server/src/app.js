@@ -17,6 +17,8 @@ dotenv.config({
   path:"src/.env"
 })
 
+const allowedOrigins = process.env.CORS_ORIGIN.split(',');
+
 const app = express();
 let validDomains = new Set();
 
@@ -77,7 +79,18 @@ app.use(express.static("public"));
 app.use(cookieParser())
 
 app.use("/frontend-api",
-  cors({ origin: process.env.CORS_ORIGIN, credentials: true }),
+  cors({
+    origin: (origin, callback) => {
+      if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+        // Allow requests with no origin (e.g., mobile apps, curl requests)
+        callback(null, true);
+      } else {
+        // Reject requests from unauthorized origins
+        callback(new Error('Not allowed by CORS'), false);
+      }
+    },
+    credentials: true
+  }),
   formRouter,
   testRouter,
   dashboardRouter,
