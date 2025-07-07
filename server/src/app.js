@@ -24,7 +24,7 @@ export const fetchDomains=async () => {
   try {
     const domains = await Bot.find().select("websiteurl");
    validDomains = new Set(domains.map((doc) => doc.websiteurl))
-   validDomains.add("http://localhost:5173")
+   validDomains.add("https://botly-bot.vercel.app")
     console.log("Customer domains fetched:", [...validDomains]);
   } catch (error) {
     console.error("Error fetching customer domains:", error);
