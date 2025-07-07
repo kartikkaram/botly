@@ -9,11 +9,15 @@ const BotSelector = ({ Bots, selectedBotId, handleBotSelect }) => (
         className="appearance-none bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 pr-10 text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full"
       >
         <option value="">Select API Key</option>
-        {Bots.map((bot) => (
-          <option key={bot._id} value={bot._id}>
-            {bot.botname}
-          </option>
-        ))}
+   {!Array.isArray(Bots) || Bots.length === 0 ? (
+  <option disabled>No bots available</option>
+) : (
+  Bots.map((bot) => (
+    <option key={bot._id} value={bot._id}>
+      {bot.botname}
+    </option>
+  ))
+)}
       </select>
       <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
     </div>
