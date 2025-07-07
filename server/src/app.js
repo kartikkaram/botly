@@ -11,6 +11,12 @@ import { testRouter } from './routes/test.routes.js';
 import { dashboardRouter } from './routes/dashboard.routes.js';
 import { botRouter } from './routes/bot.routes.js';
 
+import dotenv from "dotenv"
+
+dotenv.config({
+  path:"src/.env"
+})
+
 const app = express();
 let validDomains = new Set();
 
@@ -18,7 +24,7 @@ export const fetchDomains=async () => {
   try {
     const domains = await Bot.find().select("websiteurl");
    validDomains = new Set(domains.map((doc) => doc.websiteurl))
-   validDomains.add("http://localhost:5173")
+   validDomains.add("https://botly-bot.vercel.app")
     console.log("Customer domains fetched:", [...validDomains]);
   } catch (error) {
     console.error("Error fetching customer domains:", error);
@@ -71,7 +77,7 @@ app.use(express.static("public"));
 app.use(cookieParser())
 
 app.use("/frontend-api",
-  cors({ origin: "http://localhost:5173", credentials: true }),
+  cors({ origin: process.env.CORS_ORIGIN, credentials: true }),
   formRouter,
   testRouter,
   dashboardRouter,

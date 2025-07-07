@@ -2,7 +2,7 @@ import axios from "axios";
 
 export async function Botly(inputMessage, botKey) {
   try {
-    const response = await axios.post('http://localhost:3001/bot-api/botResponse',
+    const response = await axios.post('/bot-api/botResponse',
          { 
             userMessage: inputMessage
          }

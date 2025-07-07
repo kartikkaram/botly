@@ -6,8 +6,13 @@ import { clerkClient } from '@clerk/express';
 
 export const clerkWebhook = AsyncHandler(async (req, res) => {
   try {
+
     const evt = await verifyWebhook(req);
     const eventType = evt.type;
+
+    debugger
+    console.log("webhook: ", evt.type);
+
 
     if (eventType === 'user.created') {
       const existingUser = await User.findOne({ username: evt.data.username });
