@@ -11,6 +11,7 @@ import {
   FileTextIcon,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import {toast} from 'sonner'
 import axios from 'axios'
 
 const ContextEditor = ({ apikey }) => {
@@ -68,28 +69,26 @@ const handleFileParsing = (file) => {
               apikey:apikey
             }
            })
-           if(!response){
-            alert("something went wrong while uploading file")
-            alert("context added")
-           }
+          toast.success("csv  added succsesfully")
             } catch (error) {
+              toast.error("something went wrong while adding csv")
               console.log("something went wrong",error)
             }
   }
   const uploadJson=async () => {
        try {
          let parsedData= handlePasteJson()
+         if(!parsedData)return
+         parsedData.shift()
           const response=await  axios.post(`${import.meta.env.VITE_BASE_URL}/frontend-api/addContext`,parsedData,{
             headers:{
               apikey:apikey
             }
            })
-           if(!response){
-            alert("something went wrong while uploading file")
-          }
-          alert("context added")
+           toast.success("json context added succsesfully")
             } catch (error) {
               console.log("something went wrong",error)
+              toast.error("something went wrong while adding json context")
             }
   }
 
@@ -100,7 +99,7 @@ const handlePasteJson = () => {
     if (!Array.isArray(parsed)) throw new Error("Expected an array");
     return parsed;
   } catch (err) {
-    alert("Invalid JSON: " + err.message);
+    toast.error("invalid json")
     return null;
   }
 };

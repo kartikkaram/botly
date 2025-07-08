@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Settings, Plus, Minus, FileText, Code, MessageCircle, File, Trash2 } from 'lucide-react';
 import CsvUpload from '../CsvUpload';
 
-const ContextSetupStep = ({ formData, data, updateFormData, validationErrors }) => {
+const ContextSetupStep = ({ formData,  updateFormData, validationErrors }) => {
   const [newCapability, setNewCapability] = useState('');
   const [newRestrictedTopic, setNewRestrictedTopic] = useState('');
   const [newFaqInput, setNewFaqInput] = useState('');
@@ -331,7 +331,8 @@ const ContextSetupStep = ({ formData, data, updateFormData, validationErrors }) 
        {formData.contextInputType === 'csv' && (
       <CsvUpload
         key="csv"
-        data={data}
+        formData={formData}
+        updateFormData={updateFormData}
         validationErrors={validationErrors}
       />
     )}

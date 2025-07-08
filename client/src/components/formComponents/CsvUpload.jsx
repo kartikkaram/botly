@@ -3,15 +3,53 @@ import { useDropzone } from "react-dropzone";
 import { motion } from "framer-motion";
 import { FileSpreadsheet, FileCheck2, AlertCircle } from "lucide-react";
 
-const CsvUpload = ({ data, validationErrors }) => {
+const CsvUpload = ({ formData,updateFormData, validationErrors }) => {
   const maxFileSize = 5 * 1024 * 1024; // 5MB
   const [uploadedFileName, setUploadedFileName] = useState(null);
 
-  const onDrop = (acceptedFiles, fileRejections) => {
+  const handleFileParsing = (file) => {
+  return new Promise((resolve, reject) => {
+    if (!file) return reject(new Error("No file provided"));
+
+    if (!file.name.endsWith(".csv")) {
+      return reject(new Error("Only .csv files are allowed"));
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      try {
+        const lines = event.target.result.split("\n");
+        const newEntries = lines
+          .map((line) => {
+            const [input, output] = line.split(",");
+            return input && output
+              ? { input: input.trim(), output: output.trim() }
+              : null;
+          })
+          .filter(Boolean);
+
+        resolve(newEntries);
+      } catch (err) {
+        reject(err);
+      }
+    };
+
+    reader.onerror = () => {
+      reject(new Error("Error reading file"));
+    };
+
+    reader.readAsText(file);
+  });
+};
+
+  const onDrop = async(acceptedFiles, fileRejections) => {
     if (acceptedFiles.length > 0) {
       const file = acceptedFiles[0];
       validationErrors.csvFile = null;
-      data.current.set("file", file);
+     const parsedData=await handleFileParsing(file)
+     parsedData.shift()
+     updateFormData('csvContext',parsedData)
       setUploadedFileName(file.name);
     }
 

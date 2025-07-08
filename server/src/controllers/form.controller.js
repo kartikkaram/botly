@@ -14,99 +14,94 @@ import { getAuth } from "@clerk/express";
 
 
 export const formController=AsyncHandler(async (req, res)=> {
-
+  
   const { userId:clerkId } = getAuth(req)
   let data
-if(typeof req.body.data=== "string"){
-   data = JSON.parse(req.body.data);
-}else{
-  data=req.body.data
-}
-
+  data=req.body
 if (!data) {
   throw new ApiError(400, "Missing 'data' field in request body");
 }
 
-    const {
-        botName,
-        botType,
-        model,
-        language,
-        description,
-        targetAudience,
-        responseStyle,
-        capabilities,
-        restrictedTopics,
-        jsonContext,
-        manualContext,
-        websiteUrl,
-    } = data
-   
 
-    const uploadedFilePath=req?.files?.file?.[0].path
-if((!jsonContext || jsonContext=='' ) &&  !uploadedFilePath  && !manualContext){
+const {
+  botName,
+  botType,
+  model,
+  language,
+  description,
+  targetAudience,
+  responseStyle,
+  capabilities,
+  restrictedTopics,
+  jsonContext,
+  manualContext,
+  csvContext,
+  websiteUrl,
+} = data
+
+if((!jsonContext || jsonContext=='' ) &&  (!csvContext || csvContext=='')  && !manualContext){
   throw new ApiError(404, "either provide website context in json or csv")
 }
-  if (
-    !botName ||
-    !botType ||
-    !model ||
-    !description ||
-    !targetAudience ||
-    !responseStyle ||
-    !capabilities ||
-    !websiteUrl 
-  ) {
-    throw new ApiError(400, "All required fields must be provided.");
-  }
+if (
+  !botName ||
+  !botType ||
+  !model ||
+  !description ||
+  !targetAudience ||
+  !responseStyle ||
+  !capabilities ||
+  !websiteUrl 
+) {
+  throw new ApiError(400, "All required fields must be provided.");
+}
 
-  const user=await User.findOne({clerkid:clerkId})
-  if(!user){
-    throw new ApiError(400,"user not found")
-  }
+const user=await User.findOne({clerkid:clerkId})
+if(!user){
+  throw new ApiError(400,"user not found")
+}
 
-  // Generate prompt using template
-  const structuredPrompt = generatePromptForBot({
-    bottype:botType,
-    websiteurl:websiteUrl,
-    description,
-    responsestyle:responseStyle,
-    targetaudience:targetAudience,
-    restrictedtopics:restrictedTopics,
-    capabilities
-  });
-  if(!structuredPrompt){
-    throw new ApiError(401,"error while creating prompt")
-  }
+// Generate prompt using template
+const structuredPrompt = generatePromptForBot({
+  bottype:botType,
+  websiteurl:websiteUrl,
+  description,
+  responsestyle:responseStyle,
+  targetaudience:targetAudience,
+  restrictedtopics:restrictedTopics,
+  capabilities
+});
+if(!structuredPrompt){
+  throw new ApiError(401,"error while creating prompt")
+}
 
- 
 
-  // Process jsoncontext (JSON or JS object)
-  let parsedContext;
-  if(jsonContext){
-    try {
-      parsedContext = typeof jsonContext === "string"
-      ? JSON.parse(jsonContext)
-      : jsonContext;
+
+// Process jsoncontext (JSON or JS object)
+let parsedContext 
+if(manualContext && manualContext.length>0){
+  parsedContext=manualContext
+}else if(jsonContext && jsonContext !=''){
+  parsedContext=jsonContext
+}else{
+  parsedContext=csvContext
+}
+try {
+      parsedContext = typeof parsedContext === "string"
+      ? JSON.parse(parsedContext)
+      : parsedContext;
     } catch (err) {
       throw new ApiError(400, "Invalid website context format");
     }
-  }
-else  if(uploadedFilePath){
-    try {
-         parsedContext=await csvParser(uploadedFilePath)
-           if(parsedContext){
-                 await deleteFromTemp(uploadedFilePath)
-                }
-      } catch (error) {
-        await deleteFromTemp(uploadedFilePath)
-          throw new ApiError(401, "error while parsing csv")
-      }
-  }
-  else if(manualContext){
-    parsedContext=manualContext
-  }
- 
+    if (parsedContext.length === 0) {
+      console.log(parsedContext)
+      throw new ApiError(400, "Context must contain at least one entry");
+    }
+    
+
+ if (!Array.isArray(parsedContext) || parsedContext.some(e => !e.input || !e.output)) {
+  throw new ApiError(400, "Each context item must contain 'input' and 'output'");
+}
+
 
   // Generate embeddings for each context item and enrich it
   await initializeEmbedder();
