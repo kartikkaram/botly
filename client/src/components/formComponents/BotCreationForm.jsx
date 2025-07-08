@@ -9,6 +9,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { useAuth, useUser } from '@clerk/clerk-react';
 import { Navigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const BotCreationForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -51,6 +52,7 @@ const [formData, setFormData] = useState(() => {
     contextInputType: 'manual',
     manualContext: [],
     jsonContext: '',
+    csvContext:'',
     websiteUrl: ''
   };
 });
@@ -63,7 +65,6 @@ const [validationErrors, setValidationErrors] = useState(() => {
    return {};
  }
 });
- const data = useRef(new FormData());
  
  
  useEffect(() => {
@@ -126,8 +127,7 @@ const [validationErrors, setValidationErrors] = useState(() => {
         }
       }
     }else if(formData.contextInputType === 'csv'){
-      const file = data.current.get("file"); 
-  if (!file || file.type !== "text/csv") {
+  if (!formData.csvContext) {
        errors.csvContext = 'Invalid file';
   }
     }
@@ -175,13 +175,9 @@ const [validationErrors, setValidationErrors] = useState(() => {
   const handleSubmit = async () => {
     setIsSubmitting(true);
     setSubmitError('');
-   
-data.current.delete("data");
-
-data.current.set("data", JSON.stringify(formData));
   const token = await getToken();
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/frontend-api/botForm`, data.current, {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/frontend-api/botForm`, formData, {
   headers: {
     Authorization: `Bearer ${token}`,
   },
@@ -195,6 +191,7 @@ data.current.set("data", JSON.stringify(formData));
       return
     }
     setApiKey(response.data.data)
+    toast.success("bot created succesfully")
       setSubmitSuccess(true);
     } catch (error) {
       console.error('Submission error:', error);
@@ -241,7 +238,6 @@ data.current.set("data", JSON.stringify(formData));
         return (
           <ContextSetupStep
             formData={formData}
-            data={data}
             updateFormData={updateFormData}
             validationErrors={validationErrors}
           />

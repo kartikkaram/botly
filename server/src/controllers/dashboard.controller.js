@@ -135,7 +135,6 @@ const pipeline = [
 export const mostFrequentlyAskedQuestions=AsyncHandler(async (req , res) => {
   
      const {apikey}=req.headers
-     console.log(apikey)
 
     const chats = await Dashboard.aggregate([
   { $match: { apikey } }, // Match documents with the specific apikey
@@ -152,8 +151,8 @@ export const mostFrequentlyAskedQuestions=AsyncHandler(async (req , res) => {
 
 
 const data =chats[0].combined
-     const distanceMatrix = calculateDistanceMatrix(data);
-     const eps=estimateBestEps(distanceMatrix)
+const distanceMatrix = calculateDistanceMatrix(data);
+const eps=estimateBestEps(distanceMatrix)
 console.log(eps)
      const clusters = dbscan(distanceMatrix,eps);
      const clusterResults = clusters.map((cluster) => {
@@ -166,9 +165,8 @@ console.log(eps)
 
 // Sort clusters by size and get the top 10-20
 const topClusters = clusterResults
-  .sort((a, b) => b.count - a.count)
-  .slice(0, 10);
-
+.sort((a, b) => b.count - a.count)
+.slice(0, 10);
 
  return res
    .status(201)

@@ -51,6 +51,7 @@ const BotlyDashboard = ({ bot, setSelectedBot, onContextUpdate }) => {
 
   const getMFAQS = async () => {
     try {
+      console.log(bot.apikey, `${import.meta.env.VITE_BASE_URL}` )
       const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/frontend-api/getMFAQs`,{} ,{
         headers: {  
           apikey: bot?.apikey
