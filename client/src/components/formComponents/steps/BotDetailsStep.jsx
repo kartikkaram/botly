@@ -3,9 +3,9 @@ import { motion } from 'framer-motion';
 import { Bot, User, MessageSquare, Target } from 'lucide-react';
 
 const BotDetailsStep = ({ formData, updateFormData, validationErrors }) => {
-  const botTypes = ['Assistant', 'Support Bot', 'Sales Bot'];
+  const botTypes = ['FAQ Bot', 'Support Bot', 'Product Recommender','Educational Bot'];
   const models = ['Gemini', 'DeepSeek', 'Mistral'];
-  const languages = ['English', 'Spanish', 'French', 'German', 'Italian', 'Portuguese'];
+  const languages = ['English'];
 
   const inputVariants = {
     focus: { scale: 1.02, transition: { duration: 0.2 } },

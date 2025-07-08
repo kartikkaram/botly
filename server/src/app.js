@@ -26,13 +26,13 @@ export const fetchDomains=async () => {
   try {
     const domains = await Bot.find().select("websiteurl");
    validDomains = new Set(domains.map((doc) => doc.websiteurl))
-   validDomains.add("https://botly-bot.vercel.app")
+   validDomains.add("http://localhost:5173")
     console.log("Customer domains fetched:", [...validDomains]);
   } catch (error) {
     console.error("Error fetching customer domains:", error);
     process.exit(1); // Exit the process if initialization fails
   }
-}
+}//https://botly-bot.vercel.app
 
 
 const botCorsOptions = {
