@@ -4,6 +4,9 @@ const docs = [
   { slug: 'getting-started', title: 'Getting Started' },
   { slug: 'integration-guide', title: 'Integration Guide' },
   { slug: 'api-reference', title: 'API Reference' },
+  { slug: 'what-botly-do', title: 'What Botly Do' },
+  { slug: 'sample-react-app', title: 'Sample React App' },
+  { slug: 'sample-node-express-app', title: 'Sample Node Express App' },
 ];
 
 export default function DocsSidebar() {

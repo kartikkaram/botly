@@ -4,6 +4,7 @@ import BotSelector from '../components/playground/BotSelector';
 import ChatSection from '../components/playground/ChatSection';
 import Sidebar from '../components/playground/Sidebar';
 import { Bot } from 'lucide-react';
+import { useUser } from '@clerk/clerk-react';
 
 function PlaygroundPage({ Bots }) {
   const [selectedBotId, setSelectedBotId] = useState('');
@@ -13,6 +14,7 @@ function PlaygroundPage({ Bots }) {
   const [isTyping, setIsTyping] = useState(false);
   const [activeTab, setActiveTab] = useState('chat');
   const [loading, setLoading] = useState(true);
+  const { isSignedIn, isLoaded } = useUser();
 
     useEffect(() => {
     if (Bots) {
@@ -34,6 +36,11 @@ function PlaygroundPage({ Bots }) {
       <h1 className='flex h-screen w-screen justify-center items-center bg-black text-4xl text-white '>please create a bot first</h1>
       </>
     )
+  }
+
+  if (!isSignedIn) {
+    window.location.href = "https://climbing-lacewing-77.accounts.dev/sign-in";
+    return null; // prevent rendering anything else
   }
 
 

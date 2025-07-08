@@ -32,7 +32,8 @@ const BotlyDashboard = ({ bot, setSelectedBot, onContextUpdate }) => {
   }
 
   if (!isSignedIn) {
-    return <Navigate to="/" replace />;
+    window.location.href = "https://climbing-lacewing-77.accounts.dev/sign-in";
+    return null; // prevent rendering anything else
   }
 
   const handleRevokeKey = async () => {

@@ -24,9 +24,10 @@ const AllBotsPage = ({ bots, onBotSelect }) => {
   }
 
   if (!isSignedIn) {
-    return <Navigate to="/" replace />;
+    window.location.href = "https://climbing-lacewing-77.accounts.dev/sign-in";
+    return null; // prevent rendering anything else
   }
-  
+
 
   return (
   <section className="min-h-screen px-6 lg:pl-24 py-12 bg-gradient-to-br from-[var(--gradient-from)] via-[var(--gradient-via)] to-[var(--gradient-to)] text-[var(--text-primary)] pb-25">

@@ -1,0 +1,72 @@
+import { Callout } from '../components/docs/Callout'
+import { Divider } from '../components/docs/Divider'
+import { CodeBlock } from '../components/docs/CodeBlock'
+
+# Sample Node + Express App
+
+This example shows how to use the `botlyapi` package inside a simple Express server.
+
+<Divider />
+
+## 1. Install Packages
+
+<CodeBlock language="bash">
+{`npm install express botlyapi dotenv`}
+</CodeBlock>
+
+<Divider />
+
+## 2. Create `index.js`
+
+<CodeBlock language="js">
+{`const express = require('express');
+const Botly = require('botlyapi');
+require('dotenv').config();
+
+const app = express();
+const PORT = 3000;
+
+app.use(express.json());
+
+app.post('/ask', async (req, res) => {
+  const { userMessage } = req.body;
+
+  try {
+    const response = await Botly(userMessage, process.env.BOTLY_API_KEY);
+    res.json({ reply: response });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Botly API error' });
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(\`Server running on http://localhost:\${PORT}\`);
+});`}
+</CodeBlock>
+
+<Divider />
+
+## 3. Add `.env`
+
+<CodeBlock language="bash">
+{`BOTLY_API_KEY=your_actual_api_key_here`}
+</CodeBlock>
+
+<Divider />
+
+## 4. Test It
+
+Use Postman or `curl` to test:
+
+<CodeBlock language="bash">
+{`curl -X POST http://localhost:3000/ask \\
+  -H "Content-Type: application/json" \\
+  -d '{"userMessage": "Hello Botly!"}'`}
+</CodeBlock>
+
+<Callout type="tip" title="Best Practice">
+Use `try/catch` and proper error handling to manage failed API calls gracefully.
+</Callout>
+
+<Divider />

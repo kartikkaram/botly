@@ -1,0 +1,116 @@
+import { Callout } from '../components/docs/Callout'
+import { Divider } from '../components/docs/Divider'
+import { CodeBlock } from '../components/docs/CodeBlock'
+
+# What Can Botly Do?
+
+Botly is a flexible AI assistant that you can drop into any app — React frontend, Node.js backend, or custom UIs via direct API access.
+
+This page highlights **core capabilities**, and how to use them effectively.
+
+<Divider />
+
+## 🔍 1. Real-Time Conversations
+
+### Example
+
+<CodeBlock language="json">
+{`{
+  "userMessage": "Tell me where india is located?"
+}`}
+</CodeBlock>
+
+Response:
+
+<CodeBlock language="json">
+{`{
+  "botResponse": "India is a vast country located in South Asia. It is a peninsula, meaning it's largely surrounded by water."
+}`}
+</CodeBlock>
+
+<Callout type="info" title="Good To Know">
+You only need to send a single field: `userMessage`.
+
+All personalization, context awareness, and intelligence are handled internally by Botly’s AI — no need to manage additional fields or session data.
+
+Just pass plain input like:
+
+👉 `"userMessage": "What can you do?"`
+
+Botly takes care of the rest.
+</Callout>
+
+
+<Divider />
+
+## 📦 2. Easily Deployable Anywhere
+
+- ✅ React-based frontends (via `botly-bots`)  
+- ✅ Node.js CLI tools or servers (via `botlyapi`)  
+- ✅ Any platform via direct HTTP requests
+
+Botly works without needing a full UI — even a cronjob or webhook can talk to it.
+
+<Divider />
+
+## 🎨 3. Fully Customizable UI
+
+Using the `botly-bots` React component:
+
+- Change assistant name, title, default prompt  
+- Customize styles with your own CSS or framework  
+- Theme it with Tailwind, Chakra, etc.
+
+<CodeBlock language="jsx">
+{`<BotlyBot 
+  apiKey={yourKey}
+  title="Health Assistant"
+  initialMessage="Hey! How can I support your wellness today?"
+/>`}
+</CodeBlock>
+
+<Divider />
+
+<h3>⚠️ 4. Smart Error Responses</h3>
+
+<p>Botly replies with clear error messages when something goes wrong.</p>
+
+<table className="text-left">
+  <thead>
+    <tr>
+      <th>HTTP Code</th>
+      <th className="text-center">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td className="text-center">401</td>
+      <td>Missing or invalid API key</td>
+    </tr>
+    <tr>
+      <td className="text-center">429</td>
+      <td>Rate limit hit</td>
+    </tr>
+    <tr>
+      <td className="text-center">500</td>
+      <td>Internal server error</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>You can catch these in <code>.catch()</code> or <code>try-catch</code> blocks when using SDKs.</p>
+
+
+<Divider />
+
+## ✨ 5. Coming Soon
+
+- 🔐 User-level memory (store facts across sessions)  
+- 🧩 Plugin-style tools integration (API chaining, DB lookups)  
+- 🌐 Multilingual support
+
+<Callout type="info" title="Want Early Access?">
+Email us or ping on Discord to test these features before public release.
+</Callout>
+
+<Divider />
