@@ -1,0 +1,64 @@
+import { Callout } from '../components/docs/Callout'
+import { Divider } from '../components/docs/Divider'
+import { CodeBlock } from '../components/docs/CodeBlock'
+
+# Sample React App
+
+This example shows how to build a simple React app using the `botly-bots` component.
+
+<Divider />
+
+## 1. Install Dependencies
+
+<CodeBlock language="bash">
+{`npm install botly-bots`}
+</CodeBlock>
+
+<Divider />
+
+## 2. Create `App.jsx`
+
+<CodeBlock language="jsx">
+{`import './App.css';
+import BotlyBot from 'botly-bots';
+import 'botly-bot/dist/botly-bots.css';
+
+function App() {
+  return (
+    <div className="App">
+      <h1>My Botly Assistant</h1>
+      <BotlyBot 
+        apiKey={import.meta.env.VITE_BOT_API_KEY}
+        initialMessage="Hello! I'm CODExJATIN, your assistant."
+        title="CODExJATIN Assistant"
+      />
+    </div>
+  );
+}
+
+export default App;`}
+</CodeBlock>
+
+<Divider />
+
+## 3. Setup Environment Variable
+
+Create a `.env` file in the root:
+
+<CodeBlock language="bash">
+{`VITE_BOT_API_KEY=your_actual_api_key_here`}
+</CodeBlock>
+
+<Divider />
+
+## 4. Run the App
+
+<CodeBlock language="bash">
+{`npm run dev`}
+</CodeBlock>
+
+<Callout type="info" title="Customization Tip">
+To change styles, modify `botly-bots.css` or wrap the component in your own layout.
+</Callout>
+
+<Divider />

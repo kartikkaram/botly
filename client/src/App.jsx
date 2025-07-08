@@ -71,51 +71,63 @@ useEffect(() => {
 
   return (
     <>
-    <Routes>
-      {/* No Sidebar */}
-      <Route path="/" element={<Index />} />
+      <Routes>
+        {/* No Sidebar */}
+        <Route path="/" element={<Index />} />
 
-      {/* With Sidebar for internal routes */}
-      <Route
-        path="/bots"
-        element={
-          <>
-            <Sidebar />
-            {!selectedBot ? (
-              <AllBotsPage bots={bots} onBotSelect={handleBotSelection} />
-            ) : (
-              <BotlyDashboard bot={selectedBot} setSelectedBot={setSelectedBot} />
-            )}
-          </>
-        }
-      />
-      <Route
-        path="/create-bot"
-        element={
-          <>
-            <Sidebar />
-            <BotCreationForm />
-          </>
-        }
-      />
-      <Route
-        path="/playground"
-        element={
-          <>
-            <Sidebar/>
-            <PlaygroundPage Bots={bots}/>
-          </>
-        }
-      />
-      <Route
-        path="/docs/:slug"
-        element={
-          <>
-            <DocumentationPage/>
-          </>
-        }
-      />
-    </Routes>
+        {/* Bots Page */}
+        <Route
+          path="/bots"
+          element={
+            <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
+              <Sidebar />
+              <div style={{ flex: 1, overflowY: "auto" }}>
+                {!selectedBot ? (
+                  <AllBotsPage bots={bots} onBotSelect={handleBotSelection} />
+                ) : (
+                  <BotlyDashboard bot={selectedBot} setSelectedBot={setSelectedBot} />
+                )}
+              </div>
+            </div>
+          }
+        />
+
+        {/* Create Bot Page */}
+        <Route
+          path="/create-bot"
+          element={
+            <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
+              <Sidebar />
+              <div style={{ flex: 1, overflowY: "auto" }}>
+                <BotCreationForm />
+              </div>
+            </div>
+          }
+        />
+
+        {/* Playground */}
+        <Route
+          path="/playground"
+          element={
+            <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
+              <Sidebar />
+              <div style={{ flex: 1, overflowY: "auto" }}>
+                <PlaygroundPage Bots={bots} />
+              </div>
+            </div>
+          }
+        />
+
+        {/* Docs */}
+        <Route
+          path="/docs/:slug"
+          element={
+            <div style={{ height: "100vh", overflowY: "auto" }}>
+              <DocumentationPage />
+            </div>
+          }
+        />
+      </Routes>
     </>
   );
 }

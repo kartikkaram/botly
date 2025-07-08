@@ -16,15 +16,15 @@ There are two integration paths:
 ### Install the Package
 
 <CodeBlock language="bash">
-{`npm install botly-bot`}
+{`npm install botly-bots`}
 </CodeBlock>
 
 ### Example Code
 
 <CodeBlock language="jsx">
 {`import './App.css';
-import BotlyBot from 'botly-bot';
-import 'botly-bot/dist/botly-bot.css';
+import BotlyBot from 'botly-bots';
+import 'botly-bot/dist/botly-bots.css';
 
 function App() {
   return (
@@ -43,7 +43,7 @@ export default App;`}
 
 The BotlyBot component comes styled out of the box. To override the appearance:
 
-- Edit `botly-bot.css`
+- Edit `botly-bots.css`
 - Or wrap `<BotlyBot />` in your layout and use your own styles
 
 <Callout type="info" title="Tip">
@@ -73,20 +73,5 @@ Use this method if you want to make API calls from you NodeJS application direct
       console.error("Error calling Botly:", error);
     });`}
 </CodeBlock>
-
-
-## 3. Direct API Access (Custom UI)
-
-Use this method if you want to build your own chat UI.
-
-### Sample API Call
-
-<CodeBlock language="bash">
-{`npm install botlyapi`}
-</CodeBlock>
-<CodeBlock language="js">
-Botly(userMessage, YOUR_API_KEY)
-</CodeBlock>
-Use this inside a handler or hook to dynamically call Botly.
 
 <Divider />
