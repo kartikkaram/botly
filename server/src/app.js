@@ -24,10 +24,11 @@ let validDomains = new Set();
 
 export const fetchDomains=async () => {
   try {
-    const domains = await Bot.find().select("websiteurl");
-   validDomains = new Set(domains.map((doc) => doc.websiteurl))
-   validDomains.add("https://botly-bot.vercel.app")
-    console.log("Customer domains fetched:", [...validDomains]);
+     const domains = await Bot.find().select("websiteurl");
+     validDomains = new Set(domains.map((doc) => doc.websiteurl))
+     validDomains.add("https://botly-bot.vercel.app")
+     validDomains.add("https://botly.codexjatin.me")
+     console.log("Customer domains fetched:", [...validDomains]);
   } catch (error) {
     console.error("Error fetching customer domains:", error);
     process.exit(1); // Exit the process if initialization fails
