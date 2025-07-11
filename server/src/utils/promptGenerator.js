@@ -17,13 +17,15 @@ Capabilities: ${capabilities.join(", ")}
   if (restrictedtopics.length) {
     basePrompt += `Avoid discussing the following topics: ${restrictedtopics.join(", ")}.\n`;
   }
+  
 
   switch (bottype) {
     case "FAQ Bot":
       basePrompt += `You must only respond using data from the FAQ section of the website.`;
       break;
     case "Support Bot":
-      basePrompt += `Ask the user what issue they're facing, then offer a structured solution.`;
+      basePrompt += `If the user's message clearly describes an issue or question, respond with a structured solution right away.
+Only ask for more details if their message is vague or doesn't specify a problem.`;
       break;
     case "Product Recommender":
       basePrompt += `Suggest the most relevant products based on user input.`;

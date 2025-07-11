@@ -50,10 +50,26 @@ await initializeEmbedder();
              if(!contextText){
         throw new ApiError( 404,"context text was not created." );
   }
-  
-  const prompt = `${bot.prompt}\n\nUse the following context to answer:\n${contextText}\n\nUser: ${userMessage}\n
-  avoid replying to messages that are out of bot's capabilities or not matching to its target audience
-  Bot and you can generalize a bit:`;
+
+  const getChat = await Dashboard.findOne({ apikey, ipaddress }).select("chathistory");
+
+const lastFiveUserChats = getChat?.chathistory
+  ?.slice(-6)
+  .map(c => `${c.sender === "user" ? "User" : "Bot"}: ${c.content}`)
+  .join("\n");
+
+  const prompt = `${bot.prompt}\n\n
+  Use the following context to answer:\n
+  ${contextText}\n\n
+  Conversation history:
+${lastFiveUserChats}\n\n
+User query: ${userMessage}\n
+Instructions:
+- Use the conversation history only to understand the tone and flow.
+- Do not rely on it for factual answers
+- avoid replying to messages that are out of bot's capabilities or not matching to its target audience
+and you can generalize a bit:`;
+  console.log(prompt)
   if(!prompt){
         throw new ApiError( 404,"topK were not created." );
   }
