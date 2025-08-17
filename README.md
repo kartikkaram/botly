@@ -1,4 +1,8 @@
-# Botly
+# Botly <a href="https://botly-bot.vercel.app/" target="_blank">
+  <img src="https://img.shields.io/badge/Visit-Botly-blue?style=for-the-badge&logo=appveyor" alt="Botly">
+</a>
+
+
 
 **Botly** is a SaaS platform for creating, managing, and deploying AI-powered chatbots that you can easily embed in your website or React app. It provides a user-friendly dashboard, robust backend, and a customizable React component (`<BotlyBot />`) available as an npm package.
 
