@@ -1,6 +1,5 @@
-# Botly <a href="https://botly-bot.vercel.app/" target="_blank">
-  <img src="https://img.shields.io/badge/Visit-Botly-blue?style=for-the-badge&logo=appveyor" alt="Botly">
-</a>
+# Botly [![Open Botly](https://img.shields.io/badge/Open-Botly-brightgreen?style=for-the-badge)](https://botly-bot.vercel.app/)
+
 
 
 
